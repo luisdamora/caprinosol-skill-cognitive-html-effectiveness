@@ -17,7 +17,11 @@ The agent generates a single `.html` file that:
 ## Install
 
 ```bash
-npx skills add luisdamora/caprinosol-skill-cognitive-html-effectiveness
+npx skills add luisdamora/caprinosol-skill-cognitive-html-effectiveness --skill cognitive-html-effectiveness
+```
+
+```bash
+bunx skills add luisdamora/caprinosol-skill-cognitive-html-effectiveness --skill cognitive-html-effectiveness
 ```
 
 Works with OpenCode, Claude Code, Cursor, Windsurf, and other AI coding agents.
@@ -41,7 +45,7 @@ Works with OpenCode, Claude Code, Cursor, Windsurf, and other AI coding agents.
 
 Add this block to your project's `AGENTS.md` to override the default palette:
 
-```markdown
+~~~markdown
 <!-- cognitive-html:palette -->
 ```yaml
 ivory: "#FEFEFE"
@@ -51,7 +55,7 @@ olive: "#0F3460"
 oat:   "#E8E8E8"
 ```
 <!-- /cognitive-html:palette -->
-```
+~~~
 
 ## Language support
 
