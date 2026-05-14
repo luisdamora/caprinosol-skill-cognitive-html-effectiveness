@@ -1,6 +1,6 @@
 ---
 name: cognitive-html-effectiveness
-description: Generate self-contained, beautiful HTML documents that replace walls of markdown. Use this skill whenever the user asks for a report, comparison, explainer, slide deck, diagram, post-mortem, status update, code walkthrough, design system showcase, prototype, or interactive editor — or mentions creating HTML outputs, dashboards, visual documentation, or "instead of markdown". Covers 10 battle-tested patterns: comparison, walkthrough, review, design-system, prototyping, diagram, deck, explainer, report, and editor.
+description: "Generate self-contained, beautiful HTML documents that replace walls of markdown. Use this skill whenever the user asks for a report, comparison, explainer, slide deck, diagram, post-mortem, status update, code walkthrough, design system showcase, prototype, or interactive editor — or mentions creating HTML outputs, dashboards, visual documentation, or \"instead of markdown\". Covers 10 battle-tested patterns: comparison, walkthrough, review, design-system, prototyping, diagram, deck, explainer, report, and editor."
 ---
 
 # Cognitive HTML Effectiveness
