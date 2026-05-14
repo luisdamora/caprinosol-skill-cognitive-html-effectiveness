@@ -133,6 +133,13 @@ show(0);
 For animation sandbox: "Copy CSS" button that copies the current transition rule.  
 For clickable flow: "Copy screens as HTML" or export each screen description.
 
+## Mobile-first behavior
+
+- Controls stack vertically on phone; sliders, selects, and buttons should be easy to manipulate with a thumb.
+- The preview area must still communicate the behavior when narrow; if needed, reduce ornament before shrinking the interaction.
+- Clickable flows should show one screen at a time on mobile, with obvious next/back controls.
+- If the prototype depends on motion, include a reduced-motion fallback for readers who disable animation.
+
 ## Full examples
 
 - **Animation sandbox**: See `resources/07-prototype-animation.html` in the project

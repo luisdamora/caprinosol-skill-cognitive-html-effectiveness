@@ -49,7 +49,7 @@ body {
 }
 .slide {
   width: 100vw;
-  height: 100vh;
+  min-height: 100svh;
   scroll-snap-align: start;
   scroll-snap-stop: always;
   display: flex;
@@ -65,6 +65,14 @@ body {
 .slide-inner {
   width: 100%;
   max-width: 780px;
+}
+@media (max-width: 640px) {
+  body { scroll-snap-type: y proximity; }
+  .slide {
+    padding: 24px 16px 64px;
+    align-items: flex-start;
+  }
+  .slide-inner { max-width: 100%; }
 }
 ```
 
@@ -134,6 +142,7 @@ Always include at the bottom of `<body>`:
 - **Use the inverted slide sparingly.** It's for decisions and emphasis — 1 per deck max.
 - **End with an action.** "Next week", "Decision needed", or "Questions?".
 - **No bullets with sub-bullets.** If you need hierarchy, it's two slides.
+- **On phone, decks become a vertical reading experience.** Do not rely only on keyboard navigation or projector-style pacing.
 
 ## Full example
 

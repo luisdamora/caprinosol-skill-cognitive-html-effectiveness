@@ -76,6 +76,13 @@ Side-by-side analysis of multiple approaches or options with tradeoffs and a rec
 </div>
 ```
 
+## Mobile-first behavior
+
+- On phone, comparison defaults to a single stack of approach cards.
+- Recommendation stays near the bottom, after the user has seen the options; do not pin it in a side rail.
+- If there are 3+ approaches, add a one-line summary to each card so the reader can skim fast without opening code.
+- Tradeoff tables must use the mobile fallback from `components.md` rather than forcing two cramped columns.
+
 ## CSS
 
 ```css
@@ -94,7 +101,7 @@ h1 {
 /* approach grid */
 .approaches {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: 1fr;
   gap: 28px;
   margin-bottom: 56px;
 }
@@ -126,6 +133,13 @@ h1 {
 .reco h2 { font-family: var(--serif); font-weight: var(--weight-heading); font-size: var(--text-h2); color: var(--text-primary); margin-bottom: 10px; }
 .reco p { font-size: 15px; margin-bottom: 8px; color: var(--text-secondary); }
 .reco code { font-family: var(--mono); font-size: 0.92em; background: var(--bg-muted); padding: 1px 6px; border-radius: 4px; }
+@media (min-width: 900px) {
+  .approaches { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+}
+@media (max-width: 640px) {
+  .approach { padding: 18px; gap: 16px; }
+  .reco { padding: 18px; border-radius: var(--radius-panel); border-left-width: 3px; }
+}
 ```
 
 ## Language adaptation

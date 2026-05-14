@@ -127,7 +127,18 @@ svg.diagram .arrow.hot {
   stroke: var(--clay);
   stroke-width: 2;
 }
+@media (max-width: 640px) {
+  .diagram-panel { padding: 18px 14px; }
+  svg.diagram { min-width: 560px; }
+}
 ```
+
+## Mobile-first behavior
+
+- Every diagram must still make sense at `390px` wide.
+- If the SVG is wider than the phone, allow horizontal scroll inside the diagram panel — never on the full page.
+- Add a short text summary or ordered list under the diagram so the reader can understand the main path without panning.
+- Keep labels large enough to read on a phone; if you need too many nodes, break the diagram apart.
 
 ## Interactivity: click a node to see details
 

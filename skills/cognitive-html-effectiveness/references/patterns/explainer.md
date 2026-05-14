@@ -57,11 +57,20 @@ A document that teaches a feature, concept, or system — designed for someone w
 .page {
   max-width: var(--container-page); margin: 0 auto;
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr);
-  gap: 48px;
+  grid-template-columns: 1fr;
+  gap: 24px;
 }
-@media (max-width: 920px) { .page { grid-template-columns: 1fr; } .page nav { display: none; } }
+@media (min-width: 921px) {
+  .page { grid-template-columns: 200px minmax(0, 1fr); gap: 48px; }
+}
 ```
+
+## Mobile-first behavior
+
+- On phone, the navigation does not disappear; it becomes a compact "On this page" card or collapsible block above the main content.
+- Steps stay in one vertical flow. Do not place config samples beside explanations on narrow screens.
+- Tabs for configuration examples should scroll horizontally if labels are long.
+- FAQ remains at the end, but gotchas should move above it so the reader sees risk before trivia.
 
 ## Content writing rules for explainers
 

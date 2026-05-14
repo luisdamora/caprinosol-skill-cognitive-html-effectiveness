@@ -75,6 +75,13 @@ A document the PR author creates for reviewers.
 
 ## Key CSS for severity tags in annotations
 
+## Mobile-first behavior
+
+- Review pages should read top-to-bottom on phone: summary first, then one file block at a time.
+- Keep each annotation as a vertical stack on mobile; tag first, explanation second, code below.
+- Diff panes can scroll horizontally, but each pane should also include a prose summary of the concern.
+- If a PR writeup uses before/after tabs, those tabs must stay thumb-friendly and horizontally scrollable.
+
 ```css
 .annotation {
   display: flex; align-items: flex-start; gap: 10px;
@@ -96,6 +103,10 @@ A document the PR author creates for reviewers.
 .annotation.low .annotation-tag    { background: var(--bg-muted); color: var(--text-muted); }
 .annotation.good .annotation-tag   { background: var(--olive); color: var(--white); }
 .annotation-body { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+@media (max-width: 640px) {
+  .annotation { flex-direction: column; gap: 8px; padding-left: 12px; }
+  .annotation-tag { min-height: var(--touch-target); display: inline-flex; align-items: center; justify-content: center; }
+}
 ```
 
 ## Severity guide

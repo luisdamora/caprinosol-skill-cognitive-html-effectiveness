@@ -43,6 +43,12 @@ All custom — no standard components needed beyond basic layout.
 
 The design-system pattern is the canonical place to show the whole foundation layer. Start from the same shared shell as the other patterns, then render swatches, type, spacing, radius, and shadows as sections.
 
+## Mobile-first behavior
+
+- This page should prove the system works on a phone, not just describe desktop tokens.
+- Swatches stack naturally, typography rows collapse into one column, and spacing demos stay readable at `390px`.
+- Include at least one section that explicitly shows touch target, page padding, and mobile reading width tokens.
+
 ## Color swatch CSS
 
 ```css
@@ -73,6 +79,9 @@ The design-system pattern is the canonical place to show the whole foundation la
 }
 .swatch-hex {
   font-family: var(--mono); font-size: 12px; color: var(--text-muted);
+}
+@media (max-width: 640px) {
+  .swatches { grid-template-columns: 1fr 1fr; }
 }
 ```
 
@@ -114,6 +123,9 @@ Usage — each swatch gets a `--bg` inline style with the actual color, and the 
 .type-sample.display { font-family: var(--serif); font-size: var(--text-display); font-weight: var(--weight-display); line-height: var(--lh-display); }
 .type-sample.h1 { font-family: var(--serif); font-size: var(--text-h1); font-weight: var(--weight-heading); line-height: var(--lh-heading); }
 .type-sample.body { font-family: var(--sans); font-size: var(--text-body); font-weight: var(--weight-body); line-height: var(--lh-body); }
+@media (max-width: 640px) {
+  .type-row { grid-template-columns: 1fr; gap: 10px; }
+}
 ```
 
 Usage — render each level at its actual size:
@@ -154,6 +166,9 @@ Usage — render each level at its actual size:
 .space-label { font-family: var(--mono); font-size: 12px; color: var(--text-muted); text-align: right; }
 .space-bar { height: 100%; min-height: 8px; background: var(--clay); border-radius: 2px; }
 .space-px { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
+@media (max-width: 640px) {
+  .space-row { grid-template-columns: 56px 1fr 56px; gap: 12px; }
+}
 ```
 
 ## Include the rest of the system

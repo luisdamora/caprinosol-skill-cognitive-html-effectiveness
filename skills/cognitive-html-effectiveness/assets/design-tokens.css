@@ -85,11 +85,15 @@
   --space-8: 64px;
 
   /* ── Layout ─────────────────────────── */
+  --viewport-mobile: 390px;
+  --touch-target: 44px;
   --container-reading: 72ch;
   --container-page: 1180px;
   --container-wide: 1380px;
   --section-gap: var(--space-7);
   --stack-gap: var(--space-5);
+  --section-gap-mobile: var(--space-6);
+  --stack-gap-mobile: var(--space-4);
 
   /* ── Shape & borders ────────────────── */
   --radius-1: 6px;
@@ -135,6 +139,8 @@
   --bg-accent: var(--surface-accent);
 
   /* ── Optional starter shell ─────────── */
-  --page-padding-inline: clamp(20px, 3vw, 36px);
-  --page-padding-block: clamp(24px, 4vw, 48px);
+  --page-padding-inline: clamp(16px, 3vw, 36px);
+  --page-padding-inline-comfy: clamp(16px, 4vw, 24px);
+  --page-padding-block: clamp(20px, 4vw, 48px);
+  --page-padding-block-mobile: 20px;
 }

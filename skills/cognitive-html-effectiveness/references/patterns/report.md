@@ -130,7 +130,19 @@ body {
 .measure {
   max-width: var(--container-reading);
 }
+@media (max-width: 640px) {
+  .page { padding: var(--page-padding-block-mobile) var(--page-padding-inline-comfy) calc(var(--page-padding-block-mobile) * 2); }
+  .page-main { gap: var(--section-gap-mobile); }
+}
 ```
+
+## Mobile-first behavior
+
+- On phone, the order is always: title/meta → TL;DR or summary band → highlights → evidence (table/chart/timeline) → follow-ups.
+- Status cards collapse to one column unless two compact metrics genuinely fit.
+- Long tables stay inside `.table-scroll`; do not let the full page drift horizontally.
+- Charts may scroll horizontally, but they also need a 1-2 sentence takeaway above or below.
+- Incident timelines stay vertical on phone; do not try to force side-by-side incident anatomy.
 
 ## Status report — key details
 

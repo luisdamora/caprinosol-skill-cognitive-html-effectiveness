@@ -5,18 +5,18 @@ If multiple patterns could apply, pick the one that best matches the **primary i
 
 ## Quick-lookup table
 
-| User says (signal phrases)                                           | Pattern file              | What it produces                             |
-|----------------------------------------------------------------------|---------------------------|----------------------------------------------|
-| "compara", "tradeoffs", "qué approach", "ventajas y desventajas", "cuál es mejor" | `comparison.md`           | Side-by-side grid + tradeoff table + recommendation |
-| "explica cómo funciona en el código", "recorrido", "cómo fluye X", "walkthrough"   | `walkthrough.md`          | Diagram + numbered steps + collapsible code  |
-| "revisa este PR", "analiza este diff", "code review", "qué cambió"   | `review.md`               | Annotated diff + severity tags + margin notes  |
-| "design system", "colores", "tipografía", "tokens", "swatches"       | `design-system.md`        | Color swatches + type scale + spacing table  |
-| "prototipo", "animación", "transición", "efecto", "interacción"       | `prototyping.md`          | Animation sandbox with sliders / clickable flow |
-| "diagrama", "flujo", "flowchart", "arquitectura", "dibuja"            | `diagram.md`              | SVG inline flowchart or architecture diagram  |
-| "presentación", "slides", "deck", "exponer", "demo"                  | `deck.md`                 | Full-viewport slide deck with keyboard nav   |
-| "explícame", "cómo funciona", "feature explainer", "concepto", "qué es X" | `explainer.md`            | Collapsible steps + tabs + FAQ + callouts    |
-| "reporte", "status", "semanal", "post-mortem", "incidente", "on-call"  | `report.md`               | Summary band + chart + table + timeline + actions |
-| "editor", "tablero", "triage", "kanban", "drag and drop", "ordenar"   | `editor.md`               | Interactive board + filters + export button  |
+| User says (signal phrases)                                           | Pattern file              | What it produces                             | Mobile-first default |
+|----------------------------------------------------------------------|---------------------------|----------------------------------------------|----------------------|
+| "compara", "tradeoffs", "qué approach", "ventajas y desventajas", "cuál es mejor" | `comparison.md`           | Side-by-side grid + tradeoff table + recommendation | stacked cards |
+| "explica cómo funciona en el código", "recorrido", "cómo fluye X", "walkthrough"   | `walkthrough.md`          | Diagram + numbered steps + collapsible code  | one column + supporting sections below |
+| "revisa este PR", "analiza este diff", "code review", "qué cambió"   | `review.md`               | Annotated diff + severity tags + margin notes  | stacked annotations + scrollable diff panes |
+| "design system", "colores", "tipografía", "tokens", "swatches"       | `design-system.md`        | Color swatches + type scale + spacing table  | stacked showcase sections |
+| "prototipo", "animación", "transición", "efecto", "interacción"       | `prototyping.md`          | Animation sandbox with sliders / clickable flow | vertical controls + one-screen preview |
+| "diagrama", "flujo", "flowchart", "arquitectura", "dibuja"            | `diagram.md`              | SVG inline flowchart or architecture diagram  | scrollable panel + text fallback |
+| "presentación", "slides", "deck", "exponer", "demo"                  | `deck.md`                 | Full-viewport slide deck with keyboard nav   | vertical slide stack |
+| "explícame", "cómo funciona", "feature explainer", "concepto", "qué es X" | `explainer.md`            | Collapsible steps + tabs + FAQ + callouts    | nav card + one-column reading flow |
+| "reporte", "status", "semanal", "post-mortem", "incidente", "on-call"  | `report.md`               | Summary band + chart + table + timeline + actions | summary-first document stack |
+| "editor", "tablero", "triage", "kanban", "drag and drop", "ordenar"   | `editor.md`               | Interactive board + filters + export button  | 1-column board + non-drag fallback |
 
 ## Ambiguity resolution
 

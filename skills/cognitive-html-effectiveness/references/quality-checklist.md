@@ -7,7 +7,7 @@ Every item is a gate; if any fails, fix it before delivering.
 
 - [ ] **Self-contained**: zero external dependencies. No CDN links, no `<link>`, no `<script src="...">`. All CSS is in a `<style>` block. All JS (if any) is in a `<script>` block. All SVG is inline.
 - [ ] **Opens in any browser**: the file works when opened directly (`file://`) — no server needed.
-- [ ] **Responsive**: has `viewport` meta tag. Uses media queries or fluid units (`clamp`, `%`, `vw`) so it works on mobile. Test mentally at 375px and 1200px widths.
+- [ ] **Responsive**: has `viewport` meta tag. Uses media queries or fluid units (`clamp`, `%`, `vw`) so it works on mobile. Test mentally at `390px` and `1200px` widths.
 - [ ] **No build step**: the HTML is the artifact. No npm, no bundler, no TypeScript compilation needed.
 
 ## Content gates
@@ -20,6 +20,7 @@ Every item is a gate; if any fails, fix it before delivering.
 
 - [ ] **Palette respected**: uses the CSS variables from the default palette OR the project's AGENTS.md overrides. No hardcoded colors.
 - [ ] **Foundation shell present**: the page clearly uses a shared shell (`.page`, sections/cards, consistent spacing), not a one-off layout.
+- [ ] **Mobile-first layout**: the default flow is one-column or thumb-friendly at `390px`; desktop columns are enhancements, not the baseline.
 - [ ] **Typography hierarchy**: serif/display for headings, sans for body, mono for code/metadata. At least 3 levels of visual hierarchy (title → section heading → body/meta).
 - [ ] **Body text is readable**: normal prose is roughly `16px` or larger and line-height is `1.6` or greater.
 - [ ] **Reading width is controlled**: long-form paragraphs stay around `68–76ch`; only data-heavy zones stretch wider.
@@ -27,6 +28,7 @@ Every item is a gate; if any fails, fix it before delivering.
 - [ ] **Whitespace is generous**: sections have breathing room. Dense walls of text are broken up. Cards have padding. Use spacing scale values instead of arbitrary gaps.
 - [ ] **Visual family is consistent**: tables, code blocks, callouts, chips, and cards look like they belong to the same system (same radius, border language, and shadow levels).
 - [ ] **No presentation drift**: no static inline styles, no random one-off radii, no custom shadows or spacing values that ignore the token system.
+- [ ] **No accidental horizontal scroll**: the page should not drift sideways on mobile except inside explicit table/code/diagram scroll containers.
 
 ## Interaction gates (if interactive)
 
@@ -34,6 +36,14 @@ Every item is a gate; if any fails, fix it before delivering.
 - [ ] **Keyboard accessible**: interactive elements work with Tab, Enter, Escape. Drag-drop has a keyboard fallback or is clearly labeled as mouse-only.
 - [ ] **Focus is visible**: buttons, links, tabs, summary rows, and other controls have a visible focus state.
 - [ ] **State is visible**: filters show what's active, drag targets highlight, copied buttons flash feedback.
+- [ ] **Touch targets are usable**: buttons, tabs, toggles, and nav items aim for roughly `44px` tappable height/width.
+- [ ] **No hover-only logic**: mobile users can discover and use the interaction without needing hover.
+
+## Mobile-specific content gates
+
+- [ ] **First viewport earns attention**: the summary/TL;DR is still visible in the first mobile viewport.
+- [ ] **Priority order is correct on phone**: content appears in the order a mobile reader needs it, not in desktop source order by accident.
+- [ ] **Dense structures degrade gracefully**: tables, code, diagrams, sidebars, and tabs declare a mobile fallback (stack, accordion, horizontal scroll, or text summary).
 
 ## Final sanity check
 

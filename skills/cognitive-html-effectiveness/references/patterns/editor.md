@@ -55,7 +55,7 @@ Editable template with variable slots highlighted. Sample inputs re-render live 
 ```css
 .board {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -72,6 +72,12 @@ Editable template with variable slots highlighted. Sample inputs re-render live 
 .col[data-col="later"] { border-top: 3px solid var(--gray-500); }
 .col[data-col="cut"]   { border-top: 3px solid var(--gray-200); }
 .col.dragover { outline: 2px dashed var(--clay); outline-offset: -6px; background: var(--surface-warning-soft); }
+@media (min-width: 700px) {
+  .board { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (min-width: 1100px) {
+  .board { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
 ```
 
 ## Ticket card CSS
@@ -197,9 +203,11 @@ Left side: editable textarea with `{{variables}}` highlighted. Right side: 3 sam
 ## Mobile consideration
 
 All editors degrade gracefully on mobile:
-- Triage board: 4 columns → 2 columns → 1 column via media queries
-- Drag-and-drop: provide a dropdown alternative for mobile
-- Buttons: ensure touch target size ≥ 44px
+- Triage board: 1 column → 2 columns → 4 columns as space becomes available
+- Drag-and-drop: provide a dropdown / "Move to…" alternative for mobile; drag should never be the only path
+- Sticky toolbars should wrap cleanly and keep export/reset actions reachable with a thumb
+- Buttons, toggles, tabs, and filters: touch target size ≥ 44px
+- Editors should avoid side-by-side panes on phone unless each pane remains obviously readable
 
 ## Full examples
 

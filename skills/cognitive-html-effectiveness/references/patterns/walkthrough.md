@@ -103,11 +103,18 @@ Step-by-step exploration of how something works in the codebase — a system flo
 </div>
 ```
 
+## Mobile-first behavior
+
+- Phone layout is a single column: summary, diagram, walkthrough steps, then supporting material.
+- `aside` moves below `main` on narrow screens; key files and gotchas become supporting blocks, not fixed rails.
+- The diagram needs a short textual "flow in words" summary directly below it for readers who will not pan around an SVG.
+- Each step should feel tap-friendly: roomy summary row, collapsible details, no tiny click targets.
+
 ## CSS (add to page <style>)
 
 ```css
-.page { max-width: var(--container-page); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; }
-@media (max-width: 960px) { .page { grid-template-columns: 1fr; } }
+.page { max-width: var(--container-page); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+@media (min-width: 961px) { .page { grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; } }
 header { grid-column: 1 / -1; margin-bottom: 8px; }
 .repo-line { font-family: var(--mono); font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px; }
 h1 { font-family: var(--serif); font-weight: var(--weight-heading); font-size: var(--text-h1); line-height: var(--lh-heading); color: var(--text-primary); margin-bottom: var(--space-4); }
@@ -138,7 +145,7 @@ svg.flow { display: block; max-width: 100%; }
 .step-body p { margin-bottom: 10px; color: var(--text-secondary); }
 
 /* sidebar */
-aside { position: sticky; top: 24px; align-self: start; }
+aside { position: static; align-self: start; }
 .panel { border: var(--border); border-radius: var(--radius-panel); background: var(--bg-card); padding: 18px 20px; margin-bottom: 20px; }
 .panel h3 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 12px; }
 .key-files { list-style: none; padding: 0; }
@@ -154,6 +161,13 @@ aside { position: sticky; top: 24px; align-self: start; }
 
 /* code panels in steps */
 pre.code { background: var(--slate); color: var(--gray-100); font-family: var(--mono); font-size: 12.5px; line-height: 1.7; border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin-top: 10px; }
+@media (min-width: 961px) {
+  aside { position: sticky; top: 24px; }
+}
+@media (max-width: 640px) {
+  .step { grid-template-columns: 1fr; gap: 12px; }
+  .badge { width: var(--touch-target); height: var(--touch-target); }
+}
 ```
 
 ## "At most one open" JS

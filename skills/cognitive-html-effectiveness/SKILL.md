@@ -33,8 +33,9 @@ These are non-negotiable. Every HTML file you produce must respect them.
 | 3 | **Progressive disclosure** | Show the big picture first, hide details behind collapsible sections, tabs, or scroll. The reader should never feel overwhelmed. |
 | 4 | **Color has meaning** | Warm colors (clay, rust) = attention, warning, danger. Cool colors (olive) = success, safety, good. Grays = structure, metadata, neutral. Never use color as the ONLY signal — always pair with text or shape. |
 | 5 | **Typography hierarchy** | Serif for headings (authority), sans for body (readability), mono for code and metadata. At least three levels of visual hierarchy on every page. |
-| 6 | **Review empathy** | Design for the person who will read this Monday morning. They're busy, they're scanning, they need to know if this matters to them in 5 seconds. |
-| 7 | **Export always** | Every interactive page ends with a button that exports the final state as markdown, JSON, or plain text. The artifact must leave the page. |
+| 6 | **Mobile-first** | Assume the first real viewport is a phone around `390px` wide. The first-pass layout must work there without zoom, horizontal drift, or hover-only logic. Desktop is the enhancement layer. |
+| 7 | **Review empathy** | Design for the person who will read this Monday morning. They're busy, they're scanning, and 80% of them may be doing it from a phone. They need to know if this matters to them in 5 seconds. |
+| 8 | **Export always** | Every interactive page ends with a button that exports the final state as markdown, JSON, or plain text. The artifact must leave the page. |
 
 ## Workflow
 
@@ -52,6 +53,7 @@ Read `references/palette-override.md` for the full protocol. In short:
 Before choosing a pattern, establish one shared base for the whole page. Every HTML output starts from the same foundation layer:
 
 - **Page shell**: `body` → `.page` → `.page-header` / `.page-main` / `.page-footer`
+- **Mobile baseline**: validate the shell at roughly `390px` wide before thinking about tablet or desktop
 - **Type scale**: use the tokens from `assets/design-tokens.css` for display, headings, body, small text, and metadata
 - **Spacing scale**: compose spacing from `--space-1` through `--space-8`; do not invent arbitrary paddings/margins
 - **Reading width**: prose-heavy sections stay near `--container-reading`; dashboards and diagrams can expand toward `--container-page`
@@ -93,12 +95,14 @@ All components must inherit from the same visual language:
 - semantic surfaces and borders from tokens only
 - consistent padding, radius, and shadow levels
 - accessible focus states on interactive controls
+- touch targets at or above `44px` when something is tappable
 - no ad hoc color math inside component CSS unless it is tokenized first
 
 ### Step 6: Apply quality checklist
 
 Before delivering, run through `references/quality-checklist.md`. Every item is a gate:
 - Self-contained? Opens in any browser? Responsive?
+- Still clear and usable at `390px` wide?
 - Language matches the prompt?
 - TL;DR visible in first viewport?
 - Palette respected (no hardcoded colors)?
@@ -163,6 +167,16 @@ In addition, generated files should expose:
 
 Use these tokens to create a recognizably consistent visual system across every pattern.
 
+## Mobile-first contract
+
+- Start every layout in a single column. Add columns only when the viewport earns them.
+- The first viewport to optimize is a phone around `390px` wide.
+- Primary body copy should stay around `16px` or larger. Do not make the user zoom to read.
+- Anything tappable should target roughly `44px` height/width.
+- Sidebars become stacked sections, drawers, or collapsibles on mobile — not permanently tiny side rails.
+- Tables, code panels, tabs, and diagrams must define a mobile fallback instead of hoping `overflow-x: auto` is enough.
+- The first screen on mobile still needs the TL;DR or equivalent summary signal.
+
 ## Anti-patterns
 
 - **Do NOT** link to external CSS frameworks (Bootstrap, Tailwind CDN, etc.). The file must work offline.
@@ -170,6 +184,9 @@ Use these tokens to create a recognizably consistent visual system across every 
 - **Do NOT** generate markdown files with "HTML-like" formatting. The output must be valid HTML.
 - **Do NOT** use inline styles (`style="..."` attributes) for static presentation. Keep styles in the `<style>` block. Data-driven SVG geometry and narrowly scoped CSS custom properties are acceptable only when they encode runtime data rather than visual decoration.
 - **Do NOT** hardcode hex colors. Always use CSS variables from the palette.
+- **Do NOT** ship desktop-first layouts that merely collapse as an afterthought. Mobile is the default target.
+- **Do NOT** rely on hover as the only way to reveal meaning, controls, or navigation.
+- **Do NOT** create sidebars, 3+ column grids, or dense tables without a declared mobile behavior.
 - **Do NOT** skip the TL;DR. Every page needs a "why should I care" signal at the top.
 - **Do NOT** create pages without an export mechanism if they are interactive.
 - **Do NOT** mix multiple patterns in one file unless the pattern explicitly supports it (e.g., report pattern can include a timeline). When in doubt, one file per intent.
@@ -177,10 +194,12 @@ Use these tokens to create a recognizably consistent visual system across every 
 ## Foundation rules
 
 - Start every page from one shell: a centered `.page` container with generous top/bottom spacing and section gaps from the spacing scale.
+- Start from the phone, then expand upward. `390px` is the first-class viewport, not an edge case.
 - Keep long-form paragraphs near `--container-reading`; only data-heavy zones should span the full page width.
 - Use at least 3 levels of hierarchy on every page: page title, section title, body/meta.
 - Use one of the documented surface levels for every block: page, card, muted, accent, or inverse.
 - Interactive controls need visible hover, focus, and active states.
+- Interactive controls also need touch-sized hit areas and should remain usable with thumb scrolling.
 - Tables, code panels, pills, and callouts should look like members of the same family, not mini one-off designs.
 
 ## Reference files

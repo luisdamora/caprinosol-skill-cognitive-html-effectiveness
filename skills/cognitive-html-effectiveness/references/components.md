@@ -10,10 +10,12 @@ genuinely demands something beyond this catalog.
 Every page should establish one visual base before dropping in components:
 
 - `body` uses `var(--bg-page)`, `var(--sans)`, `var(--text-body)`, and `var(--lh-body)`
-- `.page` centers content with `max-width: var(--container-page)` and generous block/inline padding
+- `.page` starts as a mobile-first single column, then centers content with `max-width: var(--container-page)` and generous block/inline padding
 - prose-heavy sections constrain text to `max-width: var(--container-reading)`
 - sections stack with `var(--section-gap)`; internal clusters use `var(--stack-gap)`
 - interactive controls inherit a visible focus ring and hover state from the same token system
+- tappable controls aim for roughly `var(--touch-target)` hit areas
+- any component that can overflow horizontally must declare that behavior explicitly rather than surprising the reader
 
 Components below are not meant to fight that shell; they sit on top of it.
 
@@ -76,6 +78,10 @@ The first thing a reader sees. Dark background, high contrast, answers "what hap
   padding: 1px 5px;
   border-radius: 4px;
 }
+@media (max-width: 640px) {
+  .tldr { padding: 18px 18px 20px; margin-bottom: 32px; }
+  .tldr p { font-size: var(--text-body); }
+}
 ```
 
 ---
@@ -130,6 +136,11 @@ A horizontal row of metric cards. Use for dashboards, status reports, KPIs.
 .stat-delta.up   { color: var(--color-success); }
 .stat-delta.down { color: var(--color-danger); }
 .stat-delta.flat { color: var(--text-muted); }
+@media (max-width: 640px) {
+  .summary-band { grid-template-columns: 1fr; }
+  .stat-card { padding: 18px; }
+  .stat-num { font-size: 36px; }
+}
 ```
 
 ---
@@ -188,6 +199,11 @@ Side-by-side pros and cons. Use for comparison patterns.
 }
 .tradeoffs .pro::before { background: var(--color-success); }
 .tradeoffs .con::before { background: var(--color-warning); }
+@media (max-width: 640px) {
+  .tradeoffs .row { grid-template-columns: 1fr; }
+  .tradeoffs .cell:first-child { border-right: none; }
+  .tradeoffs .cell + .cell { border-top: var(--border); }
+}
 ```
 
 ---
@@ -237,6 +253,10 @@ Small label for metadata: severity, type, status, estimate.
 .tag-feat  { background: var(--surface-success-soft); color: var(--olive); border-color: color-mix(in srgb, var(--olive) 26%, var(--white)); }
 .tag-chore { background: var(--bg-muted); color: var(--text-secondary); border-color: var(--gray-200); }
 .tag-debt  { background: var(--bg-muted); color: var(--text-secondary); border-color: var(--gray-200); }
+@media (max-width: 640px) {
+  .pill { min-height: var(--touch-target); align-items: center; }
+  .tag { padding: 5px 10px; }
+}
 ```
 
 ---
@@ -357,6 +377,10 @@ details.snippet summary .where {
   margin-left: auto;
 }
 details.snippet .body { padding: 0 16px 16px; }
+@media (max-width: 640px) {
+  details.snippet summary { min-height: var(--touch-target); align-items: flex-start; flex-wrap: wrap; }
+  details.snippet summary .where { width: 100%; margin-left: 0; }
+}
 ```
 
 **"At most one open" JS** (for walkthroughs where too many open snippets break scanning):
@@ -409,6 +433,9 @@ Dark background code block. Use for diffs, config snippets, source code.
 .diff-line.ctx { color: var(--gray-300); }
 .diff-line.del { color: color-mix(in srgb, var(--color-danger) 72%, white); }
 .diff-line.add { color: color-mix(in srgb, var(--color-success) 72%, white); }
+@media (max-width: 640px) {
+  .code-panel { padding: 14px 14px 16px; font-size: 12.5px; }
+}
 ```
 
 ---
@@ -442,15 +469,19 @@ Multiple views in a single space. Use for config examples, language variants, be
   display: flex;
   border-bottom: 1px solid var(--gray-300);
   background: var(--bg-muted);
+  overflow-x: auto;
+  scrollbar-width: thin;
 }
 .tabbar button {
   appearance: none; border: none; background: none;
   font-family: var(--mono);
   font-size: 12px;
   color: var(--text-muted);
-  padding: 10px 16px;
+  padding: 12px 16px;
   cursor: pointer;
   border-right: 1px solid var(--gray-300);
+  min-height: var(--touch-target);
+  flex: 0 0 auto;
 }
 .tabbar button.on {
   background: var(--bg-card);
@@ -460,6 +491,9 @@ Multiple views in a single space. Use for config examples, language variants, be
 }
 .tabs pre { display: none; margin: 0; padding: 16px 18px; }
 .tabs pre.on { display: block; }
+@media (max-width: 640px) {
+  .tabs pre { padding: 14px; }
+}
 ```
 
 ```js
@@ -500,6 +534,9 @@ Highlighted sidebar note. Use for tips, warnings, "heads up" messages.
   font-size: 14px;
 }
 .callout .ico { color: var(--clay); font-weight: 600; flex-shrink: 0; }
+@media (max-width: 640px) {
+  .callout { padding: 14px; }
+}
 ```
 
 ---
@@ -568,6 +605,20 @@ Trackable tasks with checkboxes and owners. Use for post-mortem follow-ups, impl
   display: flex; align-items: center; justify-content: center;
 }
 .ai-due { font-family: var(--mono); font-size: 12px; color: var(--text-muted); text-align: right; }
+@media (max-width: 640px) {
+  .ai-row {
+    grid-template-columns: 24px 32px 1fr;
+    grid-template-areas:
+      "check avatar due"
+      "check desc desc";
+    gap: 10px 12px;
+    padding: 14px;
+  }
+  .ai-check { grid-area: check; }
+  .ai-avatar { grid-area: avatar; }
+  .ai-desc { grid-area: desc; }
+  .ai-due { grid-area: due; text-align: right; }
+}
 ```
 
 ---
@@ -577,26 +628,33 @@ Trackable tasks with checkboxes and owners. Use for post-mortem follow-ups, impl
 Structured data with headers. Use for PR lists, comparison data, specs.
 
 ```html
-<table class="data-table">
-  <thead>
-    <tr>
-      <th>PR</th><th>Title</th><th>Author</th><th class="col-risk">Risk</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="#">#4871</a></td>
-      <td>Bulk edit toolbar</td>
-      <td>Mira Okafor</td>
-      <td><span class="risk"><span class="risk-dot med"></span>Med</span></td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-scroll">
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>PR</th><th>Title</th><th>Author</th><th class="col-risk">Risk</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><a href="#">#4871</a></td>
+        <td>Bulk edit toolbar</td>
+        <td>Mira Okafor</td>
+        <td><span class="risk"><span class="risk-dot med"></span>Med</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 ```
 
 ```css
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 table.data-table {
   width: 100%;
+  min-width: 560px;
   border-collapse: separate;
   border-spacing: 0;
   background: var(--bg-card);
@@ -623,6 +681,9 @@ table.data-table tbody td {
 table.data-table .col-risk { width: 100px; }
 table.data-table tbody tr:last-child td { border-bottom: none; }
 table.data-table tbody tr:hover { background: var(--ivory); }
+@media (max-width: 640px) {
+  .table-scroll { margin: 0 -2px; padding-bottom: 4px; }
+}
 ```
 
 ---
@@ -650,6 +711,9 @@ Visual progress indicator. Use for project status, completion percentages.
 .prog-fill { height: 100%; background: var(--clay); border-radius: 3px; }
 .prog-fill.fill-70 { width: 70%; }
 .prog-note { font-size: 13px; line-height: 1.55; color: var(--text-secondary); }
+@media (max-width: 640px) {
+  .prog-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
 ```
 
 ---
@@ -686,6 +750,11 @@ A framed question for the reader to decide. Use for slide decks, planning docs.
   color: var(--text-secondary); background: var(--bg-card);
 }
 .chip.lean { border-color: var(--clay); color: var(--clay); }
+@media (max-width: 640px) {
+  .decision-card { padding: 22px 18px; }
+  .decision-q { font-size: var(--text-h2); }
+  .chip { min-height: var(--touch-target); display: inline-flex; align-items: center; }
+}
 ```
 
 ---
@@ -760,6 +829,21 @@ Sticky sidebar with "On this page" links. Use for long documents.
 .side-nav a:hover { color: var(--text-primary); border-color: var(--text-primary); }
 .side-nav .files { margin-top: 28px; border-top: 1px solid var(--gray-300); padding-top: 16px; }
 .side-nav .files code { display: block; font-family: var(--mono); font-size: 11px; color: var(--text-muted); padding: 3px 0; }
+@media (max-width: 920px) {
+  .side-nav {
+    position: static;
+    top: auto;
+    padding: 14px 16px;
+    border: var(--border);
+    border-radius: var(--radius-panel);
+    background: var(--bg-card);
+  }
+  .side-nav a {
+    min-height: var(--touch-target);
+    display: flex;
+    align-items: center;
+  }
+}
 ```
 
 ---
@@ -772,3 +856,4 @@ Sticky sidebar with "On this page" links. Use for long documents.
 4.  **Color has meaning** — warm colors (clay, rust) signal attention/warning; cool colors (olive) signal success/safety; grays are structure.
 5.  **Every interactive page needs an export button** — "Copy as markdown" or "Copy as JSON". The artifact must leave the page.
 6.  **No visual freelancing** — if a component needs a new variant, tokenise it first instead of dropping raw hex, random radius, or one-off spacing into the snippet.
+7.  **Mobile fallback is mandatory** — if a component is dense on desktop (table, tabs, board, sidebar, diagram), document the phone behavior explicitly.
