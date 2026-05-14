@@ -10,7 +10,7 @@ This skill teaches AI agents to produce rich HTML outputs instead of linear mark
 
 The agent generates a single `.html` file that:
 - Opens directly in any browser — no server, no build step, no dependencies
-- Uses a warm, professional design system with semantic color coding
+- Uses a warm, professional design system with semantic color coding, shared typography, and token-based spacing/layout
 - Shows the TL;DR first, details behind collapsible sections
 - Exports back to markdown when interactive
 

@@ -106,12 +106,12 @@ Step-by-step exploration of how something works in the codebase — a system flo
 ## CSS (add to page <style>)
 
 ```css
-.page { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; }
+.page { max-width: var(--container-page); margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 40px; }
 @media (max-width: 960px) { .page { grid-template-columns: 1fr; } }
 header { grid-column: 1 / -1; margin-bottom: 8px; }
 .repo-line { font-family: var(--mono); font-size: 12.5px; color: var(--text-muted); margin-bottom: 10px; }
-h1 { font-family: var(--serif); font-weight: 500; font-size: 32px; line-height: 1.25; color: var(--text-primary); margin-bottom: 16px; }
-.summary { max-width: 760px; font-size: 15.5px; color: var(--text-secondary); }
+h1 { font-family: var(--serif); font-weight: var(--weight-heading); font-size: var(--text-h1); line-height: var(--lh-heading); color: var(--text-primary); margin-bottom: var(--space-4); }
+.summary { max-width: var(--container-reading); font-size: var(--text-lead); color: var(--text-secondary); }
 .summary code { font-family: var(--mono); font-size: 13px; }
 
 /* diagram */
@@ -120,7 +120,7 @@ svg.flow { display: block; max-width: 100%; }
 .flow text { font-family: var(--mono); font-size: 12px; fill: var(--text-primary); }
 .flow .sub { font-size: 10px; fill: var(--text-muted); }
 .flow .box { fill: var(--bg-card); stroke: var(--gray-300); stroke-width: 1.5; }
-.flow .box.hot { fill: rgba(217,119,87,0.10); stroke: var(--clay); }
+.flow .box.hot { fill: color-mix(in srgb, var(--clay) 12%, var(--white)); stroke: var(--clay); }
 .flow .arrow { stroke: var(--gray-500); stroke-width: 1.5; fill: none; }
 
 /* steps */
@@ -132,7 +132,7 @@ svg.flow { display: block; max-width: 100%; }
   display: flex; align-items: center; justify-content: center;
   font-family: var(--mono); font-weight: 600; color: var(--text-primary); font-size: 14px;
 }
-.step.hot .badge { background: rgba(217,119,87,0.14); border-color: var(--clay); color: var(--clay); }
+.step.hot .badge { background: color-mix(in srgb, var(--clay) 16%, var(--white)); border-color: var(--clay); color: var(--clay); }
 .step-loc { font-family: var(--mono); font-size: 13px; color: var(--text-primary); margin-bottom: 6px; }
 .step-loc .range { color: var(--text-muted); }
 .step-body p { margin-bottom: 10px; color: var(--text-secondary); }
@@ -145,7 +145,7 @@ aside { position: sticky; top: 24px; align-self: start; }
 .key-files li { margin-bottom: 12px; }
 .key-files .path { font-family: var(--mono); font-size: 12px; color: var(--text-primary); display: block; margin-bottom: 2px; word-break: break-all; }
 .key-files .desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.45; }
-.gotchas { border: 1.5px solid var(--clay); border-radius: var(--radius-panel); background: rgba(217,119,87,0.06); padding: 18px 20px; }
+.gotchas { border: 1.5px solid var(--clay); border-radius: var(--radius-panel); background: color-mix(in srgb, var(--clay) 8%, var(--white)); padding: 18px 20px; }
 .gotchas h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--clay); margin-bottom: 10px; }
 .gotchas ul { list-style: none; padding: 0; }
 .gotchas li { position: relative; padding-left: 16px; font-size: 13px; margin-bottom: 8px; color: var(--text-secondary); }
@@ -153,7 +153,7 @@ aside { position: sticky; top: 24px; align-self: start; }
 .gotchas code { font-family: var(--mono); font-size: 11.5px; }
 
 /* code panels in steps */
-pre.code { background: var(--slate); color: #E8E6DC; font-family: var(--mono); font-size: 12.5px; line-height: 1.7; border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin-top: 10px; }
+pre.code { background: var(--slate); color: var(--gray-100); font-family: var(--mono); font-size: 12.5px; line-height: 1.7; border-radius: 8px; padding: 14px 16px; overflow-x: auto; margin-top: 10px; }
 ```
 
 ## "At most one open" JS

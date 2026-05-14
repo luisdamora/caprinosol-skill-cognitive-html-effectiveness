@@ -79,15 +79,15 @@ Side-by-side analysis of multiple approaches or options with tradeoffs and a rec
 ## CSS
 
 ```css
-.page { max-width: 1360px; margin: 0 auto; }
-.page-head { margin-bottom: 48px; max-width: 760px; }
+.page { max-width: var(--container-wide); margin: 0 auto; }
+.page-head { margin-bottom: var(--space-6); max-width: var(--container-reading); }
 .eyebrow {
   font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
   color: var(--text-muted); margin-bottom: 12px;
 }
 h1 {
-  font-family: var(--serif); font-weight: 500; font-size: 38px;
-  line-height: 1.15; color: var(--text-primary); margin-bottom: 18px;
+  font-family: var(--serif); font-weight: var(--weight-display); font-size: var(--text-display);
+  line-height: var(--lh-display); color: var(--text-primary); margin-bottom: var(--space-4);
   letter-spacing: -0.01em;
 }
 
@@ -105,7 +105,7 @@ h1 {
   padding: 24px;
   display: flex; flex-direction: column; gap: 20px;
 }
-.approach-head h2 { font-family: var(--serif); font-weight: 500; font-size: 21px; color: var(--text-primary); margin-bottom: 6px; }
+.approach-head h2 { font-family: var(--serif); font-weight: var(--weight-heading); font-size: var(--text-h3); color: var(--text-primary); margin-bottom: 6px; }
 .approach-head .num {
   display: inline-block;
   font-family: var(--mono); font-size: 12px;
@@ -120,10 +120,10 @@ h1 {
   border-left: 4px solid var(--clay);
   background: var(--bg-card);
   border-radius: 0 var(--radius-panel) var(--radius-panel) 0;
-  padding: 24px 28px;
-  max-width: 860px;
+  padding: var(--space-5) 28px;
+  max-width: var(--container-reading);
 }
-.reco h2 { font-family: var(--serif); font-weight: 500; font-size: 22px; color: var(--text-primary); margin-bottom: 10px; }
+.reco h2 { font-family: var(--serif); font-weight: var(--weight-heading); font-size: var(--text-h2); color: var(--text-primary); margin-bottom: 10px; }
 .reco p { font-size: 15px; margin-bottom: 8px; color: var(--text-secondary); }
 .reco code { font-family: var(--mono); font-size: 0.92em; background: var(--bg-muted); padding: 1px 6px; border-radius: 4px; }
 ```

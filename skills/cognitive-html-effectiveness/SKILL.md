@@ -47,7 +47,19 @@ Read `references/palette-override.md` for the full protocol. In short:
 3. If found, parse the YAML inside. Merge overrides with defaults.
 4. If not found, use the full default palette from `assets/design-tokens.css`.
 
-### Step 2: Choose pattern
+### Step 2: Load the foundation system
+
+Before choosing a pattern, establish one shared base for the whole page. Every HTML output starts from the same foundation layer:
+
+- **Page shell**: `body` → `.page` → `.page-header` / `.page-main` / `.page-footer`
+- **Type scale**: use the tokens from `assets/design-tokens.css` for display, headings, body, small text, and metadata
+- **Spacing scale**: compose spacing from `--space-1` through `--space-8`; do not invent arbitrary paddings/margins
+- **Reading width**: prose-heavy sections stay near `--container-reading`; dashboards and diagrams can expand toward `--container-page`
+- **Shared components**: cards, callouts, code panels, tables, badges, and nav must reuse the documented component variants
+
+Read `assets/design-tokens.css` as the source of truth for typography, spacing, borders, shadows, and semantic surfaces.
+
+### Step 3: Choose pattern
 
 Read `references/decision-tree.md` for the full table. Match the user's request to one of the 10 patterns:
 
@@ -64,7 +76,7 @@ Read `references/decision-tree.md` for the full table. Match the user's request 
 | Report | `patterns/report.md` | Status update, post-mortem |
 | Editor | `patterns/editor.md` | Interactive board, triage, drag-drop |
 
-### Step 3: Read the pattern file
+### Step 4: Read the pattern file
 
 Each pattern file in `references/patterns/` contains:
 - **When to use** — signal phrases that match this pattern
@@ -72,11 +84,18 @@ Each pattern file in `references/patterns/` contains:
 - **Component prescriptions** — which components from `references/components.md` to use
 - **Full worked example** — a complete, self-contained HTML file you can study
 
-### Step 4: Compose from components
+### Step 5: Compose from components
 
 Build the page using the component catalog in `references/components.md`. Do not invent new component patterns unless absolutely necessary. The catalog has 15 proven components: TL;DR box, summary band, tradeoff table, chips, timeline, collapsible snippets, code panels, tabs, callouts, action items, data tables, progress bars, decision cards, FAQ, and sidebar navigation.
 
-### Step 5: Apply quality checklist
+All components must inherit from the same visual language:
+- serif/display for headings, sans for prose, mono for metadata and code
+- semantic surfaces and borders from tokens only
+- consistent padding, radius, and shadow levels
+- accessible focus states on interactive controls
+- no ad hoc color math inside component CSS unless it is tokenized first
+
+### Step 6: Apply quality checklist
 
 Before delivering, run through `references/quality-checklist.md`. Every item is a gate:
 - Self-contained? Opens in any browser? Responsive?
@@ -85,7 +104,7 @@ Before delivering, run through `references/quality-checklist.md`. Every item is 
 - Palette respected (no hardcoded colors)?
 - Interactive? → has export button?
 
-### Step 6: Deliver
+### Step 7: Deliver
 
 Return the HTML file. The filename should be descriptive and kebab-case (e.g., `incident-report-sync-502.html`, `comparison-debounce-approaches.html`). If the user asked for multiple things, generate one file per pattern — each self-contained.
 
@@ -111,7 +130,7 @@ Generated HTML files use descriptive kebab-case names in the language of the con
 
 Place files in the current working directory unless the user specifies otherwise.
 
-## The default palette
+## The default design system
 
 These are the default design tokens. They define the visual identity. Every generated file embeds them in a `<style>` block. Reference components by semantic variable name, never by raw hex value.
 
@@ -132,16 +151,37 @@ These are the default design tokens. They define the visual identity. Every gene
 --mono:  ui-monospace, monospace
 ```
 
+In addition, generated files should expose:
+
+```
+--text-display / --text-h1 / --text-h2 / --text-h3 / --text-body / --text-small
+--space-1 through --space-8
+--container-reading / --container-page
+--shadow-1 / --shadow-2 / --focus-ring
+--surface-page / --surface-card / --surface-muted / --surface-accent / --surface-inverse
+```
+
+Use these tokens to create a recognizably consistent visual system across every pattern.
+
 ## Anti-patterns
 
 - **Do NOT** link to external CSS frameworks (Bootstrap, Tailwind CDN, etc.). The file must work offline.
 - **Do NOT** use external JavaScript libraries. If you need interaction, write vanilla JS.
 - **Do NOT** generate markdown files with "HTML-like" formatting. The output must be valid HTML.
-- **Do NOT** use inline styles (`style="..."` attributes). All styles go in the `<style>` block.
+- **Do NOT** use inline styles (`style="..."` attributes) for static presentation. Keep styles in the `<style>` block. Data-driven SVG geometry and narrowly scoped CSS custom properties are acceptable only when they encode runtime data rather than visual decoration.
 - **Do NOT** hardcode hex colors. Always use CSS variables from the palette.
 - **Do NOT** skip the TL;DR. Every page needs a "why should I care" signal at the top.
 - **Do NOT** create pages without an export mechanism if they are interactive.
 - **Do NOT** mix multiple patterns in one file unless the pattern explicitly supports it (e.g., report pattern can include a timeline). When in doubt, one file per intent.
+
+## Foundation rules
+
+- Start every page from one shell: a centered `.page` container with generous top/bottom spacing and section gaps from the spacing scale.
+- Keep long-form paragraphs near `--container-reading`; only data-heavy zones should span the full page width.
+- Use at least 3 levels of hierarchy on every page: page title, section title, body/meta.
+- Use one of the documented surface levels for every block: page, card, muted, accent, or inverse.
+- Interactive controls need visible hover, focus, and active states.
+- Tables, code panels, pills, and callouts should look like members of the same family, not mini one-off designs.
 
 ## Reference files
 
@@ -149,7 +189,7 @@ This skill uses progressive disclosure. Read reference files only as needed:
 
 - `references/decision-tree.md` — full pattern selection guide with examples
 - `references/components.md` — catalog of 15 reusable UI components with HTML + CSS
-- `references/palette-override.md` — how to customize colors per project via AGENTS.md
+- `references/palette-override.md` — how to customize colors and core theme tokens per project via AGENTS.md
 - `references/quality-checklist.md` — pre-delivery validation checklist
 - `references/patterns/*.md` — one file per pattern, each with structure blueprint + worked example
 

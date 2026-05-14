@@ -39,6 +39,10 @@ Showcase the visual identity of a project — colors, typography, spacing, and c
 
 All custom — no standard components needed beyond basic layout.
 
+## Foundation shell
+
+The design-system pattern is the canonical place to show the whole foundation layer. Start from the same shared shell as the other patterns, then render swatches, type, spacing, radius, and shadows as sections.
+
 ## Color swatch CSS
 
 ```css
@@ -56,6 +60,11 @@ All custom — no standard components needed beyond basic layout.
 .swatch-preview {
   height: 80px;
 }
+.swatch-preview.ivory { background: var(--ivory); }
+.swatch-preview.slate { background: var(--slate); }
+.swatch-preview.clay { background: var(--clay); }
+.swatch-preview.olive { background: var(--olive); }
+.swatch-preview.oat { background: var(--oat); }
 .swatch-info {
   padding: 12px 14px;
 }
@@ -72,7 +81,7 @@ Usage — each swatch gets a `--bg` inline style with the actual color, and the 
 ```html
 <div class="swatches">
   <div class="swatch">
-    <div class="swatch-preview" style="background:var(--ivory)"></div>
+    <div class="swatch-preview ivory"></div>
     <div class="swatch-info">
       <div class="swatch-name">Ivory — Page bg</div>
       <div class="swatch-hex">#FAF9F5</div>
@@ -102,6 +111,9 @@ Usage — each swatch gets a `--bg` inline style with the actual color, and the 
 }
 .type-meta .family { color: var(--text-primary); font-weight: 600; }
 .type-sample { color: var(--text-primary); }
+.type-sample.display { font-family: var(--serif); font-size: var(--text-display); font-weight: var(--weight-display); line-height: var(--lh-display); }
+.type-sample.h1 { font-family: var(--serif); font-size: var(--text-h1); font-weight: var(--weight-heading); line-height: var(--lh-heading); }
+.type-sample.body { font-family: var(--sans); font-size: var(--text-body); font-weight: var(--weight-body); line-height: var(--lh-body); }
 ```
 
 Usage — render each level at its actual size:
@@ -110,17 +122,17 @@ Usage — render each level at its actual size:
 <div class="type-scale">
   <div class="type-row">
     <div class="type-meta">
-      <span class="family">Serif</span><br>38px / 500<br>Heading 1
+      <span class="family">Display serif</span><br>var(--text-display) / 600<br>Hero title
     </div>
-    <div class="type-sample" style="font-family:var(--serif);font-size:38px;font-weight:500;line-height:1.15">
+    <div class="type-sample display">
       The quick brown fox
     </div>
   </div>
   <div class="type-row">
     <div class="type-meta">
-      <span class="family">Sans</span><br>15px / 400<br>Body
+      <span class="family">Body sans</span><br>var(--text-body) / 400<br>Body
     </div>
-    <div class="type-sample" style="font-family:var(--sans);font-size:15px;line-height:1.6">
+    <div class="type-sample body">
       The quick brown fox jumps over the lazy dog. Pack my box with five dozen liquor jugs.
     </div>
   </div>
@@ -143,6 +155,16 @@ Usage — render each level at its actual size:
 .space-bar { height: 100%; min-height: 8px; background: var(--clay); border-radius: 2px; }
 .space-px { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
 ```
+
+## Include the rest of the system
+
+Do not stop at colors and type. A strong design-system page should also show:
+
+- the canonical page shell (`.page`, `.page-header`, `.page-main`, `.page-footer`)
+- border radius tokens
+- shadow levels
+- semantic surfaces (page/card/muted/accent/inverse)
+- example controls (button, pill, tab, callout) using the shared tokens
 
 ## Full example
 

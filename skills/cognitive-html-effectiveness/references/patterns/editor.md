@@ -71,7 +71,7 @@ Editable template with variable slots highlighted. Sample inputs re-render live 
 .col[data-col="next"]  { border-top: 3px solid var(--olive); }
 .col[data-col="later"] { border-top: 3px solid var(--gray-500); }
 .col[data-col="cut"]   { border-top: 3px solid var(--gray-200); }
-.col.dragover { outline: 2px dashed var(--clay); outline-offset: -6px; background: #FBF6F2; }
+.col.dragover { outline: 2px dashed var(--clay); outline-offset: -6px; background: var(--surface-warning-soft); }
 ```
 
 ## Ticket card CSS
@@ -86,7 +86,7 @@ Editable template with variable slots highlighted. Sample inputs re-render live 
   user-select: none;
   transition: border-color 120ms, box-shadow 120ms, opacity 120ms;
 }
-.ticket:hover { border-color: var(--gray-500); box-shadow: 0 1px 3px rgba(20,20,19,0.06); }
+.ticket:hover { border-color: var(--gray-500); box-shadow: var(--shadow-1); }
 .ticket:active { cursor: grabbing; }
 .ticket.dragging { opacity: .4; }
 .ticket.dim { opacity: .25; }

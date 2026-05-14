@@ -5,6 +5,18 @@ use these components as templates — copy the HTML structure and CSS, fill in
 the content. Do NOT invent new component patterns unless the user's request
 genuinely demands something beyond this catalog.
 
+## Foundation rules before any component
+
+Every page should establish one visual base before dropping in components:
+
+- `body` uses `var(--bg-page)`, `var(--sans)`, `var(--text-body)`, and `var(--lh-body)`
+- `.page` centers content with `max-width: var(--container-page)` and generous block/inline padding
+- prose-heavy sections constrain text to `max-width: var(--container-reading)`
+- sections stack with `var(--section-gap)`; internal clusters use `var(--stack-gap)`
+- interactive controls inherit a visible focus ring and hover state from the same token system
+
+Components below are not meant to fight that shell; they sit on top of it.
+
 ## Table of Contents
 
 1.  [TL;DR Box](#1-tldr-box)
@@ -60,7 +72,7 @@ The first thing a reader sees. Dark background, high contrast, answers "what hap
 .tldr code {
   font-family: var(--mono);
   font-size: 13.5px;
-  background: rgba(250,249,245,0.12);
+  background: color-mix(in srgb, var(--ivory) 12%, transparent);
   padding: 1px 5px;
   border-radius: 4px;
 }
@@ -116,7 +128,7 @@ A horizontal row of metric cards. Use for dashboards, status reports, KPIs.
 }
 .stat-delta { font-family: var(--mono); font-size: 11px; margin-top: 6px; }
 .stat-delta.up   { color: var(--color-success); }
-.stat-delta.down { color: var(--color-success); }
+.stat-delta.down { color: var(--color-danger); }
 .stat-delta.flat { color: var(--text-muted); }
 ```
 
@@ -218,11 +230,11 @@ Small label for metadata: severity, type, status, estimate.
   text-transform: uppercase;
   letter-spacing: 0.05em;
   border-radius: var(--radius-pill);
-  padding: 1px 7px 2px;
+  padding: 3px 8px;
   border: 1px solid transparent;
 }
-.tag-bug   { background: #F5E2D8; color: var(--clay-d); border-color: #E8C9BA; }
-.tag-feat  { background: #E8EDE0; color: #5C6F44; border-color: #CFDAC0; }
+.tag-bug   { background: var(--surface-warning-soft); color: var(--clay-d); border-color: color-mix(in srgb, var(--clay) 26%, var(--white)); }
+.tag-feat  { background: var(--surface-success-soft); color: var(--olive); border-color: color-mix(in srgb, var(--olive) 26%, var(--white)); }
 .tag-chore { background: var(--bg-muted); color: var(--text-secondary); border-color: var(--gray-200); }
 .tag-debt  { background: var(--bg-muted); color: var(--text-secondary); border-color: var(--gray-200); }
 ```
@@ -395,8 +407,8 @@ Dark background code block. Use for diffs, config snippets, source code.
 }
 .diff-line { white-space: pre; }
 .diff-line.ctx { color: var(--gray-300); }
-.diff-line.del { color: #E0897A; }
-.diff-line.add { color: #A3B88A; }
+.diff-line.del { color: color-mix(in srgb, var(--color-danger) 72%, white); }
+.diff-line.add { color: color-mix(in srgb, var(--color-success) 72%, white); }
 ```
 
 ---
@@ -480,8 +492,8 @@ Highlighted sidebar note. Use for tips, warnings, "heads up" messages.
 .callout {
   display: flex;
   gap: 12px;
-  border: 1.5px solid var(--oat);
-  background: rgba(227,218,204,0.35);
+  border: 1.5px solid color-mix(in srgb, var(--oat) 72%, var(--white));
+  background: color-mix(in srgb, var(--surface-accent) 42%, var(--white));
   border-radius: 10px;
   padding: 14px 16px;
   margin: 18px 0;
@@ -568,7 +580,7 @@ Structured data with headers. Use for PR lists, comparison data, specs.
 <table class="data-table">
   <thead>
     <tr>
-      <th>PR</th><th>Title</th><th>Author</th><th style="width:100px">Risk</th>
+      <th>PR</th><th>Title</th><th>Author</th><th class="col-risk">Risk</th>
     </tr>
   </thead>
   <tbody>
@@ -608,6 +620,7 @@ table.data-table tbody td {
   font-size: 14px;
   vertical-align: middle;
 }
+table.data-table .col-risk { width: 100px; }
 table.data-table tbody tr:last-child td { border-bottom: none; }
 table.data-table tbody tr:hover { background: var(--ivory); }
 ```
@@ -624,7 +637,7 @@ Visual progress indicator. Use for project status, completion percentages.
     <span class="prog-title">Recurring tasks engine</span>
     <span class="prog-pct">~70%</span>
   </div>
-  <div class="prog-track"><div class="prog-fill" style="width:70%"></div></div>
+  <div class="prog-track"><div class="prog-fill fill-70"></div></div>
   <p class="prog-note">Scheduler and RRULE parsing are done; remaining: timezone edge cases.</p>
 </div>
 ```
@@ -635,6 +648,7 @@ Visual progress indicator. Use for project status, completion percentages.
 .prog-pct { font-family: var(--mono); font-size: 12px; color: var(--text-muted); }
 .prog-track { width: 100%; height: 5px; background: var(--bg-muted); border-radius: 3px; overflow: hidden; }
 .prog-fill { height: 100%; background: var(--clay); border-radius: 3px; }
+.prog-fill.fill-70 { width: 70%; }
 .prog-note { font-size: 13px; line-height: 1.55; color: var(--text-secondary); }
 ```
 
@@ -660,16 +674,16 @@ A framed question for the reader to decide. Use for slide decks, planning docs.
   border: 1.5px solid var(--clay);
   border-radius: 14px;
   padding: 36px 38px;
-  background: rgba(217,119,87,0.06);
+  background: var(--surface-warning-soft);
 }
 .decision-q { font-family: var(--serif); font-size: 24px; line-height: 1.4; margin-bottom: 12px; }
-.decision-context { font-size: 14px; line-height: 1.6; color: var(--gray-300); }
+.decision-context { font-size: 14px; line-height: 1.6; color: var(--text-secondary); }
 .options { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
 .chip {
   font-family: var(--mono); font-size: 12px;
   padding: 10px 18px; border-radius: var(--radius-pill);
-  border: 1px solid var(--gray-700);
-  color: var(--ivory); background: transparent;
+  border: 1px solid var(--gray-300);
+  color: var(--text-secondary); background: var(--bg-card);
 }
 .chip.lean { border-color: var(--clay); color: var(--clay); }
 ```
@@ -757,3 +771,4 @@ Sticky sidebar with "On this page" links. Use for long documents.
 3.  **Consistent spacing** — 48-56px between main sections, 14-22px between items within a section.
 4.  **Color has meaning** — warm colors (clay, rust) signal attention/warning; cool colors (olive) signal success/safety; grays are structure.
 5.  **Every interactive page needs an export button** — "Copy as markdown" or "Copy as JSON". The artifact must leave the page.
+6.  **No visual freelancing** — if a component needs a new variant, tokenise it first instead of dropping raw hex, random radius, or one-off spacing into the snippet.

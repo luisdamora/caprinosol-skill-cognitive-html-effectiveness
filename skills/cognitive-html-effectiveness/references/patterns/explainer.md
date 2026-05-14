@@ -55,7 +55,7 @@ A document that teaches a feature, concept, or system — designed for someone w
 
 ```css
 .page {
-  max-width: 1100px; margin: 0 auto;
+  max-width: var(--container-page); margin: 0 auto;
   display: grid;
   grid-template-columns: 200px minmax(0, 1fr);
   gap: 48px;

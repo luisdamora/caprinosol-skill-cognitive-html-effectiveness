@@ -28,44 +28,113 @@
 
 :root {
   /* ── Palette ─────────────────────────── */
-  --ivory:    #FAF9F5;   /* page background */
-  --slate:    #141413;   /* primary text, inverted bg */
-  --clay:     #D97757;   /* accent, warnings, highlights */
-  --clay-d:   #B85C3E;   /* darker clay for hover states */
-  --oat:      #E3DACC;   /* secondary surface, muted sections */
-  --olive:    #788C5D;   /* success, positive deltas */
-  --rust:     #B04A3F;   /* high severity, danger */
+  --ivory:      #FAF9F5; /* page background */
+  --slate:      #141413; /* primary text, inverted bg */
+  --clay:       #D97757; /* accent, warnings, highlights */
+  --clay-d:     #B85C3E; /* darker clay for hover states */
+  --oat:        #E3DACC; /* secondary surface, muted sections */
+  --olive:      #788C5D; /* success, positive deltas */
+  --rust:       #B04A3F; /* high severity, danger */
 
   /* ── Grays ──────────────────────────── */
-  --gray-100: #F0EEE6;   /* subtle backgrounds */
-  --gray-200: #E6E3DA;   /* borders on light bg */
-  --gray-300: #D1CFC5;   /* default border */
-  --gray-500: #87867F;   /* secondary text, captions */
-  --gray-700: #3D3D3A;   /* body text */
-  --white:    #FFFFFF;   /* card backgrounds */
+  --gray-050:   #F7F5EF;
+  --gray-100:   #F0EEE6; /* subtle backgrounds */
+  --gray-200:   #E6E3DA; /* borders on light bg */
+  --gray-300:   #D1CFC5; /* default border */
+  --gray-500:   #87867F; /* secondary text, captions */
+  --gray-700:   #3D3D3A; /* body text */
+  --white:      #FFFFFF; /* card backgrounds */
 
-  /* ── Typography ─────────────────────── */
-  --serif: ui-serif, Georgia, "Times New Roman", Times, serif;
-  --sans:  system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono:  ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  /* ── Typography families ────────────── */
+  --font-display: ui-serif, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+  --font-body: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  --serif: var(--font-display);
+  --sans: var(--font-body);
+  --mono: var(--font-mono);
 
-  /* ── Spacing & Shape ────────────────── */
-  --radius-panel: 12px;
-  --radius-row:   8px;
-  --radius-pill:  999px;
-  --border:       1.5px solid var(--gray-300);
-  --border-light: 1.5px solid var(--gray-200);
+  /* ── Typography scale ───────────────── */
+  --text-display: clamp(2.4rem, 4vw, 3.4rem);
+  --text-h1: clamp(1.85rem, 2.8vw, 2.5rem);
+  --text-h2: clamp(1.45rem, 2vw, 1.85rem);
+  --text-h3: 1.25rem;
+  --text-lead: 1.125rem;
+  --text-body: 1rem;
+  --text-small: 0.875rem;
+  --text-micro: 0.75rem;
+
+  --weight-display: 600;
+  --weight-heading: 600;
+  --weight-strong: 600;
+  --weight-body: 400;
+  --weight-mono: 500;
+
+  --lh-display: 1.05;
+  --lh-heading: 1.15;
+  --lh-body: 1.65;
+  --lh-dense: 1.45;
+
+  /* ── Spacing scale ──────────────────── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* ── Layout ─────────────────────────── */
+  --container-reading: 72ch;
+  --container-page: 1180px;
+  --container-wide: 1380px;
+  --section-gap: var(--space-7);
+  --stack-gap: var(--space-5);
+
+  /* ── Shape & borders ────────────────── */
+  --radius-1: 6px;
+  --radius-2: 10px;
+  --radius-3: 16px;
+  --radius-panel: var(--radius-3);
+  --radius-row: var(--radius-2);
+  --radius-pill: 999px;
+  --border-width: 1.5px;
+  --border: var(--border-width) solid var(--gray-300);
+  --border-light: var(--border-width) solid var(--gray-200);
+  --border-strong: var(--border-width) solid var(--gray-500);
+
+  /* ── Shadow & focus ─────────────────── */
+  --shadow-1: 0 1px 2px rgba(20, 20, 19, 0.06);
+  --shadow-2: 0 10px 30px rgba(20, 20, 19, 0.08);
+  --focus-ring: 0 0 0 3px rgba(217, 119, 87, 0.2);
 
   /* ── Semantic Aliases ───────────────── */
-  --color-success:   var(--olive);
-  --color-warning:   var(--clay);
-  --color-danger:    var(--rust);
-  --color-info:      var(--gray-500);
-  --text-primary:    var(--slate);
-  --text-secondary:  var(--gray-700);
-  --text-muted:      var(--gray-500);
-  --bg-page:         var(--ivory);
-  --bg-card:         var(--white);
-  --bg-muted:        var(--gray-100);
-  --bg-accent:       var(--oat);
+  --color-success: var(--olive);
+  --color-warning: var(--clay);
+  --color-danger: var(--rust);
+  --color-info: var(--gray-500);
+
+  --text-primary: var(--slate);
+  --text-secondary: var(--gray-700);
+  --text-muted: var(--gray-500);
+  --text-inverse: var(--ivory);
+
+  --surface-page: var(--ivory);
+  --surface-card: var(--white);
+  --surface-muted: var(--gray-100);
+  --surface-subtle: var(--gray-050);
+  --surface-accent: var(--oat);
+  --surface-inverse: var(--slate);
+  --surface-warning-soft: color-mix(in srgb, var(--clay) 10%, var(--white));
+  --surface-success-soft: color-mix(in srgb, var(--olive) 12%, var(--white));
+  --surface-danger-soft: color-mix(in srgb, var(--rust) 10%, var(--white));
+
+  --bg-page: var(--surface-page);
+  --bg-card: var(--surface-card);
+  --bg-muted: var(--surface-muted);
+  --bg-accent: var(--surface-accent);
+
+  /* ── Optional starter shell ─────────── */
+  --page-padding-inline: clamp(20px, 3vw, 36px);
+  --page-padding-block: clamp(24px, 4vw, 48px);
 }

@@ -1,7 +1,7 @@
-# Palette Override — Customizing Colors per Project
+# Palette Override — Customizing Theme Tokens per Project
 
-The skill ships with a warm, earthy default palette (ivory / slate / clay / olive / oat).
-Projects can override any token via a YAML block in the root `AGENTS.md`.
+The skill ships with a warm, earthy design system.
+Projects can override color tokens, font stacks, and a few foundation tokens via a YAML block in the root `AGENTS.md`.
 
 ## How it works
 
@@ -15,37 +15,47 @@ Projects can override any token via a YAML block in the root `AGENTS.md`.
 ```markdown
 <!-- cognitive-html:palette -->
 ```yaml
-# Custom color overrides for cognitive-html-effectiveness
+# Custom theme overrides for cognitive-html-effectiveness
 ivory: "#FEFEFE"
 slate: "#1A1A2E"
 clay:  "#E94560"
 olive: "#0F3460"
 oat:   "#E8E8E8"
 rust:  "#C0392B"
+font-display: '"Iowan Old Style", Georgia, serif'
+font-body: 'Inter, system-ui, sans-serif'
+radius-panel: "18px"
+container-reading: "70ch"
 ```
 <!-- /cognitive-html:palette -->
 ```
 
-## Supported override keys
+## Recommended override keys
 
-| Key     | CSS Variable | Role                         |
-|---------|--------------|------------------------------|
-| `ivory`   | `--ivory`     | Page background              |
-| `slate`   | `--slate`     | Primary text, dark surfaces  |
-| `clay`    | `--clay`      | Accent, warnings, highlights |
-| `clay-d`  | `--clay-d`    | Darker accent (hover)        |
-| `oat`     | `--oat`       | Secondary surface, muted bg  |
-| `olive`   | `--olive`     | Success, positive indicators |
-| `rust`    | `--rust`      | Danger, high severity        |
-| `gray-100`| `--gray-100`  | Subtle background            |
-| `gray-200`| `--gray-200`  | Light border                 |
-| `gray-300`| `--gray-300`  | Default border               |
-| `gray-500`| `--gray-500`  | Secondary text               |
-| `gray-700`| `--gray-700`  | Body text                    |
-| `white`   | `--white`     | Card backgrounds             |
+| Key | CSS Variable | Role |
+|-----|--------------|------|
+| `ivory` | `--ivory` | Page background |
+| `slate` | `--slate` | Primary text, dark surfaces |
+| `clay` | `--clay` | Accent, warnings, highlights |
+| `clay-d` | `--clay-d` | Darker accent (hover) |
+| `oat` | `--oat` | Secondary surface, muted bg |
+| `olive` | `--olive` | Success, positive indicators |
+| `rust` | `--rust` | Danger, high severity |
+| `gray-100` | `--gray-100` | Subtle background |
+| `gray-200` | `--gray-200` | Light border |
+| `gray-300` | `--gray-300` | Default border |
+| `gray-500` | `--gray-500` | Secondary text |
+| `gray-700` | `--gray-700` | Body text |
+| `white` | `--white` | Card backgrounds |
+| `font-display` | `--font-display` | Heading serif stack |
+| `font-body` | `--font-body` | Body sans stack |
+| `font-mono` | `--font-mono` | Code/metadata stack |
+| `radius-panel` | `--radius-panel` | Card radius |
+| `radius-row` | `--radius-row` | Dense row radius |
+| `container-reading` | `--container-reading` | Long-form width |
+| `container-page` | `--container-page` | Page width |
 
-> You can also override `serif`, `sans`, and `mono` if you want to change the font stack.
-> Format: `sans: "Inter, system-ui, sans-serif"`
+> Advanced users may override any token exposed by `assets/design-tokens.css`, but the keys above are the safest ones to customize without breaking visual balance.
 
 ## Fallback behavior
 
@@ -65,8 +75,10 @@ oat:   "#E2E8F0"
 rust:  "#EF4444"
 ```
 
-## Tip
+## Guardrails
 
-Keep the overrides small — only change what needs to match your brand.
-The default palette is carefully balanced for readability and information hierarchy.
-Overriding everything usually produces worse results than selective tweaks.
+- Keep overrides small — only change what needs to match your brand.
+- Preserve semantic intent: warning colors should still feel warning-like, success colors should still feel positive.
+- If you override font stacks, keep the three-role model: display/serif, body/sans, mono.
+- If you override radii or widths, do it consistently across all related tokens.
+- Overriding everything usually produces worse results than selective tweaks.

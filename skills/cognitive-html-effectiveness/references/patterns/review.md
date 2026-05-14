@@ -81,10 +81,10 @@ A document the PR author creates for reviewers.
   padding: 8px 0; margin: 4px 0;
   border-left: 3px solid transparent; padding-left: 14px;
 }
-.annotation.high   { border-color: var(--rust); background: rgba(176,74,63,0.05); }
-.annotation.medium { border-color: var(--clay); background: rgba(217,119,87,0.05); }
+.annotation.high   { border-color: var(--rust); background: var(--surface-danger-soft); }
+.annotation.medium { border-color: var(--clay); background: var(--surface-warning-soft); }
 .annotation.low    { border-color: var(--gray-300); }
-.annotation.good   { border-color: var(--olive); background: rgba(120,140,93,0.05); }
+.annotation.good   { border-color: var(--olive); background: var(--surface-success-soft); }
 .annotation-tag {
   font-family: var(--mono); font-size: 10px; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.04em;

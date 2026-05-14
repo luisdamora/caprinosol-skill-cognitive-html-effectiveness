@@ -19,14 +19,20 @@ Every item is a gate; if any fails, fix it before delivering.
 ## Visual gates
 
 - [ ] **Palette respected**: uses the CSS variables from the default palette OR the project's AGENTS.md overrides. No hardcoded colors.
-- [ ] **Typography hierarchy**: serif for headings (authority), sans for body (readability), mono for code. At least 3 levels of visual hierarchy (title → section heading → body).
+- [ ] **Foundation shell present**: the page clearly uses a shared shell (`.page`, sections/cards, consistent spacing), not a one-off layout.
+- [ ] **Typography hierarchy**: serif/display for headings, sans for body, mono for code/metadata. At least 3 levels of visual hierarchy (title → section heading → body/meta).
+- [ ] **Body text is readable**: normal prose is roughly `16px` or larger and line-height is `1.6` or greater.
+- [ ] **Reading width is controlled**: long-form paragraphs stay around `68–76ch`; only data-heavy zones stretch wider.
 - [ ] **Color has meaning**: red/warning colors signal problems, green/success colors signal good news, neutral colors are for structure. Never use color as the ONLY signal — pair with text or icons.
-- [ ] **Whitespace is generous**: sections have breathing room. Dense walls of text are broken up. Cards have padding. Line-height is ≥ 1.5 for body text.
+- [ ] **Whitespace is generous**: sections have breathing room. Dense walls of text are broken up. Cards have padding. Use spacing scale values instead of arbitrary gaps.
+- [ ] **Visual family is consistent**: tables, code blocks, callouts, chips, and cards look like they belong to the same system (same radius, border language, and shadow levels).
+- [ ] **No presentation drift**: no static inline styles, no random one-off radii, no custom shadows or spacing values that ignore the token system.
 
 ## Interaction gates (if interactive)
 
 - [ ] **Export button exists**: every interactive editor/page has a way to export the final state as markdown, JSON, or plain text. Label: "Copy as markdown", "Copy as JSON", or "Export".
 - [ ] **Keyboard accessible**: interactive elements work with Tab, Enter, Escape. Drag-drop has a keyboard fallback or is clearly labeled as mouse-only.
+- [ ] **Focus is visible**: buttons, links, tabs, summary rows, and other controls have a visible focus state.
 - [ ] **State is visible**: filters show what's active, drag targets highlight, copied buttons flash feedback.
 
 ## Final sanity check

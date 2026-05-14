@@ -67,7 +67,7 @@ Visual diagrams rendered as inline SVG — flowcharts, architecture maps, sequen
 ```svg
 <defs>
   <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-    <path d="M 0 0 L 10 5 L 0 10 z" fill="#87867F"/>
+    <path class="arrow-head" d="M 0 0 L 10 5 L 0 10 z"/>
   </marker>
 </defs>
 <line class="arrow" x1="180" y1="72" x2="245" y2="72" marker-end="url(#arrow)"/>
@@ -108,13 +108,14 @@ svg.diagram text {
   fill: var(--text-primary);
 }
 svg.diagram .sub { font-size: 10px; fill: var(--text-muted); }
+svg.diagram .arrow-head { fill: var(--gray-500); }
 svg.diagram .box {
   fill: var(--bg-card);
   stroke: var(--gray-300);
   stroke-width: 1.5;
 }
 svg.diagram .box.hot {
-  fill: rgba(217,119,87,0.10);
+  fill: color-mix(in srgb, var(--clay) 12%, var(--white));
   stroke: var(--clay);
 }
 svg.diagram .arrow {
@@ -151,9 +152,9 @@ And detail sections: `<div id="step-3" class="step-detail">...</div>`
 
 ```html
 <div class="legend">
-  <span class="legend-item"><span class="swatch" style="background:var(--clay)"></span> Critical path</span>
-  <span class="legend-item"><span class="swatch" style="background:var(--gray-300)"></span> Normal flow</span>
-  <span class="legend-item"><span class="swatch" style="background:var(--oat)"></span> Data store</span>
+  <span class="legend-item"><span class="swatch critical"></span> Critical path</span>
+  <span class="legend-item"><span class="swatch normal"></span> Normal flow</span>
+  <span class="legend-item"><span class="swatch store"></span> Data store</span>
 </div>
 ```
 
@@ -164,6 +165,9 @@ And detail sections: `<div id="step-3" class="step-detail">...</div>`
 }
 .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary); }
 .swatch { width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0; }
+.swatch.critical { background: var(--clay); }
+.swatch.normal { background: var(--gray-300); }
+.swatch.store { background: var(--oat); }
 ```
 
 ## Tip: Keep the SVG simple
