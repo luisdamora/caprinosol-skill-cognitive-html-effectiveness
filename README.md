@@ -14,6 +14,23 @@ The agent generates a single `.html` file that:
 - Is designed mobile-first so the first-class experience still works beautifully on a phone
 - Shows the TL;DR first, details behind collapsible sections
 - Exports back to markdown when interactive
+- Can optionally publish the generated HTML to a **secret GitHub Gist** and return a ready-to-share `htmlpreview.github.io` URL
+
+## Optional share mode
+
+If you ask for it, the skill can:
+
+1. Create a **secret GitHub Gist** from the generated `.html`
+2. Resolve the file's **raw URL**
+3. Return a browser-friendly preview URL using `htmlpreview.github.io`
+
+Expected links:
+
+- **Gist**
+- **Raw**
+- **Preview**
+
+By default the gist should stay secret (omit `--public`). Public visibility should only be used when explicitly requested.
 
 ## Install
 

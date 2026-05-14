@@ -39,6 +39,15 @@ Every item is a gate; if any fails, fix it before delivering.
 - [ ] **Touch targets are usable**: buttons, tabs, toggles, and nav items aim for roughly `44px` tappable height/width.
 - [ ] **No hover-only logic**: mobile users can discover and use the interaction without needing hover.
 
+## Publish/share gates (if the user wants a URL)
+
+- [ ] **Publication was requested or confirmed**: do not upload by surprise.
+- [ ] **Secret gist by default**: unless the user explicitly asked for public visibility, create the gist without `--public`.
+- [ ] **Raw URL resolved**: fetch the file-specific `raw_url` from the created gist metadata.
+- [ ] **Preview URL built correctly**: `https://htmlpreview.github.io/?<raw_url>`.
+- [ ] **Final response includes all routes**: local file path, gist URL, raw URL, and preview URL.
+- [ ] **Sensitive content check**: if the HTML looks internal/confidential, mention that before publishing.
+
 ## Mobile-specific content gates
 
 - [ ] **First viewport earns attention**: the summary/TL;DR is still visible in the first mobile viewport.

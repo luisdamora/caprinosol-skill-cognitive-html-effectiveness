@@ -36,6 +36,7 @@ These are non-negotiable. Every HTML file you produce must respect them.
 | 6 | **Mobile-first** | Assume the first real viewport is a phone around `390px` wide. The first-pass layout must work there without zoom, horizontal drift, or hover-only logic. Desktop is the enhancement layer. |
 | 7 | **Review empathy** | Design for the person who will read this Monday morning. They're busy, they're scanning, and 80% of them may be doing it from a phone. They need to know if this matters to them in 5 seconds. |
 | 8 | **Export always** | Every interactive page ends with a button that exports the final state as markdown, JSON, or plain text. The artifact must leave the page. |
+| 9 | **Share is explicit** | Publishing generated HTML to a GitHub Gist is optional. Only do it when the user asks for it explicitly or confirms when asked. Default to a secret gist (no `--public`). |
 
 ## Workflow
 
@@ -112,6 +113,33 @@ Before delivering, run through `references/quality-checklist.md`. Every item is 
 
 Return the HTML file. The filename should be descriptive and kebab-case (e.g., `incident-report-sync-502.html`, `comparison-debounce-approaches.html`). If the user asked for multiple things, generate one file per pattern — each self-contained.
 
+### Step 8: Optional publish/share flow
+
+If the user asks to publish/share the generated HTML — or if your workflow explicitly allows asking after generation — use this standardized flow:
+
+1. Confirm intent if the user did **not** explicitly ask for publication.
+2. Create a **secret gist by default** using `gh gist create <file> --desc <description>`.
+   - Do **not** add `--public` unless the user explicitly wants a public gist.
+3. Read the created gist metadata with `gh api gists/<id>`.
+4. Extract:
+   - `html_url`
+   - the file-specific `raw_url`
+   - owner / file name if needed
+5. Build the preview URL:
+   - `https://htmlpreview.github.io/?<raw_url>`
+6. Return all relevant routes clearly.
+
+Expected output when publishing succeeds:
+
+```text
+File: <local html path>
+Gist: <gist html_url>
+Raw: <gist raw_url>
+Preview: https://htmlpreview.github.io/?<raw_url>
+```
+
+If publication fails because `gh` is unavailable or unauthenticated, return the local HTML path and explain the failure briefly.
+
 ## Language rule
 
 **Detect the language of the user's prompt and generate ALL visible text in that same language.** This includes: headings, labels, descriptions, TL;DR content, button text, captions, tooltips, alt text, chart labels, placeholder text, and navigation labels.
@@ -177,6 +205,16 @@ Use these tokens to create a recognizably consistent visual system across every 
 - Tables, code panels, tabs, and diagrams must define a mobile fallback instead of hoping `overflow-x: auto` is enough.
 - The first screen on mobile still needs the TL;DR or equivalent summary signal.
 
+## Publish/share contract
+
+- Publishing to GitHub Gist is an optional delivery mode, not the default.
+- If the user says things like "sube esto a gist", "dame un preview URL", "publícalo", or "compárteme una URL", activate the publish/share flow.
+- If the user did not request publication but the current workflow allows asking, ask once after generating the HTML whether they want a Gist + preview URL.
+- Default to a **secret gist** by omitting `--public`.
+- Only use `--public` if the user explicitly asks for a public shareable gist.
+- Return the final **Preview URL** as the main sharing link, with Gist and Raw URLs as supporting links.
+- Be careful with sensitive content; if the HTML appears to contain internal or confidential information, call that out before publishing.
+
 ## Anti-patterns
 
 - **Do NOT** link to external CSS frameworks (Bootstrap, Tailwind CDN, etc.). The file must work offline.
@@ -190,6 +228,8 @@ Use these tokens to create a recognizably consistent visual system across every 
 - **Do NOT** skip the TL;DR. Every page needs a "why should I care" signal at the top.
 - **Do NOT** create pages without an export mechanism if they are interactive.
 - **Do NOT** mix multiple patterns in one file unless the pattern explicitly supports it (e.g., report pattern can include a timeline). When in doubt, one file per intent.
+- **Do NOT** publish to a public gist unless the user explicitly asked for public visibility.
+- **Do NOT** silently upload generated HTML to GitHub. Publication must be user-requested or user-confirmed.
 
 ## Foundation rules
 
@@ -201,6 +241,7 @@ Use these tokens to create a recognizably consistent visual system across every 
 - Interactive controls need visible hover, focus, and active states.
 - Interactive controls also need touch-sized hit areas and should remain usable with thumb scrolling.
 - Tables, code panels, pills, and callouts should look like members of the same family, not mini one-off designs.
+- Share/publish is part of delivery only when the user wants it; local artifact delivery remains the default.
 
 ## Reference files
 
