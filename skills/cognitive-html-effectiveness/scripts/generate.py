@@ -451,12 +451,94 @@ class HTMLGenerator:
 
     # ── Component Rendering ──────────────────────────────────────────
 
+    def _render_data_table(self, data: Dict[str, Any]) -> str:
+        """Render a data-table component with dual desktop/mobile output."""
+        columns = data.get("columns", [])
+        rows = data.get("rows", [])
+        labels = data.get("rowFieldLabels", {})
+        primary = data.get("primaryColumn", columns[0] if columns else "")
+        primary_idx = columns.index(primary) if primary in columns else 0
+
+        # Desktop table header
+        headers_html = "".join(f'        <th>{col}</th>\n' for col in columns)
+
+        # Desktop table rows
+        rows_html = ""
+        for row in rows:
+            cells = "".join(f'        <td>{val}</td>\n' for val in row)
+            rows_html += f'      <tr>\n{cells}      </tr>\n'
+
+        # Handle empty table
+        if not rows:
+            col_count = len(columns)
+            rows_html = f'      <tr><td colspan="{col_count}" style="text-align:center;padding:24px;color:var(--gray-500)">No data</td></tr>\n'
+
+        # Mobile accordion rows
+        accordion_html = ""
+        for row in rows:
+            primary_val = row[primary_idx] if primary_idx < len(row) else ""
+            fields_html = ""
+            for i, val in enumerate(row):
+                col_name = columns[i] if i < len(columns) else f"Col {i}"
+                label = labels.get(col_name, col_name)
+                fields_html += (
+                    f'      <div class="accordion-field">\n'
+                    f'        <span class="accordion-label">{label}</span>\n'
+                    f'        <span class="accordion-value">{val}</span>\n'
+                    f'      </div>\n'
+                )
+            accordion_html += (
+                f'  <details open>\n'
+                f'    <summary class="accordion-summary">\n'
+                f'      <span class="accordion-primary">{primary_val}</span>\n'
+                f'    </summary>\n'
+                f'    <div class="accordion-body">\n'
+                f'{fields_html}    </div>\n'
+                f'  </details>\n'
+            )
+
+        # Empty table accordion fallback
+        if not rows:
+            accordion_html = (
+                f'  <details open>\n'
+                f'    <summary class="accordion-summary">\n'
+                f'      <span class="accordion-primary">No data</span>\n'
+                f'    </summary>\n'
+                f'    <div class="accordion-body">\n'
+                f'      <p style="color:var(--gray-500);padding:12px;">No data available</p>\n'
+                f'    </div>\n'
+                f'  </details>\n'
+            )
+
+        return (
+            '<!-- Data Table: Dual-render (desktop table + mobile accordion) -->\n'
+            '<div class="table-scroll table-desktop">\n'
+            '  <table class="data-table">\n'
+            '    <thead>\n'
+            '      <tr>\n'
+            f'{headers_html}      </tr>\n'
+            '    </thead>\n'
+            '    <tbody>\n'
+            f'{rows_html}    </tbody>\n'
+            '  </table>\n'
+            '</div>\n'
+            '\n'
+            '<!-- Mobile: accordion cards -->\n'
+            '<div class="table-mobile-accordion">\n'
+            f'{accordion_html}</div>\n'
+        )
+
     def render_component(self, component_data: Dict[str, Any]) -> str:
         """
         Render a single component from its manifest data.
         Returns the rendered HTML string (CSS included in the template).
         """
         comp_type = component_data.get("type", "")
+
+        # Special-case data-table for complex dual-render
+        if comp_type == "data-table":
+            return self._render_data_table(component_data)
+
         tmpl = self.loader.resolve_component_template(comp_type)
 
         # Process $JOIN markers in the template source before substitution
@@ -529,7 +611,7 @@ class HTMLGenerator:
             PAGE_TITLE=manifest.get("title", "Untitled"),
             PAGE_LANG=lang,
             EYEBROW=manifest.get("eyebrow", ""),
-            CSS_TOKENS=css_tokens,
+            PALETTE_CSS=css_tokens,
             COMPONENT_CSS="",
             BODY_HTML=body_html,
             EXPORT_JS=export_js,

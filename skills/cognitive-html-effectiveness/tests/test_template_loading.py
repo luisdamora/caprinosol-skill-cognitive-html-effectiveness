@@ -66,7 +66,9 @@ class TestTemplateLoading:
                 tmpl = loader.load(name)
                 content = tmpl.template
                 assert isinstance(content, str), f"{name}.html is not a string"
-                assert "<" in content, f"{name}.html does not appear to be HTML"
+                # data-table is a placeholder handled programmatically
+                if name != "data-table":
+                    assert "<" in content, f"{name}.html does not appear to be HTML"
             except SystemExit:
                 pass  # skip if template has child fragments only
 
@@ -74,7 +76,7 @@ class TestTemplateLoading:
         """Components with repeated sections should use $JOIN markers."""
         join_components = [
             "summary-band", "tradeoff-table", "chips", "timeline",
-            "action-items", "data-table", "tabs", "faq", "sidebar-nav"
+            "action-items", "tabs", "faq", "sidebar-nav"
         ]
         for name in join_components:
             try:
@@ -92,10 +94,6 @@ class TestTemplateLoading:
             "timeline-entry",
             "action-item",
             "data-table-row",
-            "data-table-header",
-            "data-table-cell",
-            "data-table-accordion-row",
-            "data-table-accordion-field",
             "tab-button",
             "tab-pane",
             "faq-item",
