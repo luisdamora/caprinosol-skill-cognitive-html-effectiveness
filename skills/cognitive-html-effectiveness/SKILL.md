@@ -109,11 +109,91 @@ Before delivering, run through `references/quality-checklist.md`. Every item is 
 - Palette respected (no hardcoded colors)?
 - Interactive? → has export button?
 
-### Step 7: Deliver
+### Step 7: Template mode (alternative to direct generation)
+
+For scenarios where content changes per-run (reports, comparisons, dashboards), use the **template-based generation pipeline** instead of hand-writing HTML. This separates presentation (templates) from content (manifest data).
+
+**When to use template mode vs direct mode:**
+
+| Mode | Use when... | File count |
+|------|-------------|------------|
+| **Direct** | One-off page with custom layout, interactive elements, or unique structure | 1 HTML file |
+| **Template** | Recurring output shape (weekly reports, comparison frameworks, incident templates) where only data changes | manifest.json + generate.py |
+
+#### Template workflow
+
+1. **Read** `catalog-summary.md` (~150 lines) — the LLM entry point listing all 10 patterns, 15 components, and the manifest schema.
+2. **Write** `manifest.json` — a JSON file conforming to the manifest schema with pattern name, title, language, palette overrides (optional), and component data.
+3. **Run** `python scripts/generate.py manifest.json --output output.html` — validates manifest against `manifest-schema.json`, resolves palette overrides from `AGENTS.md`, loads templates from `templates/`, and composes into a self-contained HTML file.
+4. **Verify** the output passes all quality checklist gates (same as Step 6).
+
+#### manifest.json example
+
+```json
+{
+  "pattern": "report",
+  "title": "Engineering Status — Week 14",
+  "lang": "en",
+  "components": {
+    "summaryBand": {
+      "type": "summary-band",
+      "items": [
+        { "num": "14", "label": "PRs merged", "delta": "+3" },
+        { "num": "1", "label": "Incidents", "delta": "SEV-2 · 47m" }
+      ]
+    }
+  }
+}
+```
+
+Run: `python scripts/generate.py manifest.json --output report.html`
+
+#### Template file structure
+
+```
+templates/
+├── base.html                          ← Page shell with design tokens
+├── components/                        ← 15 reusable component fragments
+│   ├── tldr-box.html
+│   ├── summary-band.html
+│   ├── tradeoff-table.html
+│   ├── chips.html
+│   ├── timeline.html
+│   ├── collapsible.html
+│   ├── code-panel.html
+│   ├── tabs.html
+│   ├── callout.html
+│   ├── action-items.html
+│   ├── data-table.html                ← Dual-render: <table> + <details> accordion
+│   ├── progress-bar.html
+│   ├── decision-card.html
+│   ├── faq.html
+│   └── sidebar-nav.html
+└── patterns/                          ← 10 pattern composers
+    ├── comparison.html
+    ├── walkthrough.html
+    ├── review.html
+    ├── explainer.html
+    ├── diagram.html
+    ├── deck.html
+    ├── report.html
+    ├── design-system.html
+    ├── prototyping.html
+    └── editor.html
+```
+
+**Key notes:**
+- `generate.py` uses Python `string.Template` with `$PLACEHOLDER` syntax — zero pip install needed.
+- Repeated sections use `$JOIN{name}` preprocessing instead of template loops.
+- Data Table renders dual HTML blocks: `<table>` on desktop (≥768px), `<details open>` accordion on mobile (<768px), toggled by CSS `@media`.
+- Palette overrides from `AGENTS.md` (or manifest) are merged into the default design tokens.
+- Both workflows (direct and template) produce identical-quality self-contained HTML.
+
+### Step 8: Deliver
 
 Return the HTML file. The filename should be descriptive and kebab-case (e.g., `incident-report-sync-502.html`, `comparison-debounce-approaches.html`). If the user asked for multiple things, generate one file per pattern — each self-contained.
 
-### Step 8: Optional publish/share flow
+### Step 9: Optional publish/share flow
 
 If the user asks to publish/share the generated HTML — or if your workflow explicitly allows asking after generation — use this standardized flow:
 

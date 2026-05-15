@@ -1,0 +1,11 @@
+{
+  "pattern": "report",
+  "title": "Invalid Component Type",
+  "lang": "en",
+  "components": {
+    "badComponent": {
+      "type": "invalid_type",
+      "content": "This component type does not exist."
+    }
+  }
+}

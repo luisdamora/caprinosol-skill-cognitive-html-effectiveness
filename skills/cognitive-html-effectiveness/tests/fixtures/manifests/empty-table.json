@@ -1,0 +1,14 @@
+{
+  "pattern": "report",
+  "title": "Empty Table Test",
+  "lang": "en",
+  "components": {
+    "dataTable": {
+      "type": "data-table",
+      "columns": ["PR", "Title", "Author"],
+      "rows": [],
+      "rowFieldLabels": {"PR": "PR #", "Title": "Title", "Author": "Author"},
+      "primaryColumn": "PR"
+    }
+  }
+}

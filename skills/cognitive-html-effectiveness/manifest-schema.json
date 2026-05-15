@@ -1,0 +1,382 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://caprinosol.dev/schemas/cognitive-html-manifest.json",
+  "title": "Cognitive HTML Manifest",
+  "description": "Manifest schema for cognitive-html-effectiveness template generation",
+  "type": "object",
+  "required": ["pattern", "title", "lang", "components"],
+  "properties": {
+    "pattern": {
+      "type": "string",
+      "description": "Which HTML pattern to generate",
+      "enum": [
+        "comparison",
+        "walkthrough",
+        "review",
+        "design-system",
+        "prototyping",
+        "diagram",
+        "deck",
+        "explainer",
+        "report",
+        "editor"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Page title (<title> and <h1>)",
+      "maxLength": 120
+    },
+    "lang": {
+      "type": "string",
+      "description": "Page language (BCP 47 tag)",
+      "enum": ["en", "es"]
+    },
+    "palette": {
+      "type": "object",
+      "description": "Optional palette overrides (CSS variable values)",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "propertyNames": {
+        "pattern": "^[a-zA-Z][a-zA-Z0-9_-]*$"
+      }
+    },
+    "exportJs": {
+      "type": "string",
+      "description": "Optional custom export JavaScript"
+    },
+    "components": {
+      "type": "object",
+      "description": "Component data keyed by component name (camelCase)",
+      "minProperties": 1,
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "Component type identifier",
+            "enum": [
+              "tldr",
+              "summary-band",
+              "tradeoff-table",
+              "chips",
+              "timeline",
+              "collapsible",
+              "code-panel",
+              "tabs",
+              "callout",
+              "action-items",
+              "data-table",
+              "progress-bar",
+              "decision-card",
+              "faq",
+              "sidebar-nav"
+            ]
+          },
+          "mobile_behavior": {
+            "type": "string",
+            "description": "How this component behaves on mobile",
+            "enum": ["stack", "scroll", "collapse", "accordion", "hide"]
+          }
+        },
+        "required": ["type"],
+        "additionalProperties": true
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "summaryBand": {
+                "type": "object"
+              }
+            },
+            "required": ["summaryBand"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "summaryBand": {
+                "type": "object",
+                "required": ["type", "items"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["num", "label"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tldrBox": {
+                "type": "object"
+              }
+            },
+            "required": ["tldrBox"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tldrBox": {
+                "type": "object",
+                "required": ["type", "content"],
+                "properties": {
+                  "content": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "dataTable": {
+                "type": "object"
+              }
+            },
+            "required": ["dataTable"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "dataTable": {
+                "type": "object",
+                "required": ["type", "columns", "rows", "rowFieldLabels", "primaryColumn"],
+                "properties": {
+                  "columns": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "type": "string" }
+                  },
+                  "rows": {
+                    "type": "array",
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": { "type": "string" }
+                    }
+                  },
+                  "rowFieldLabels": {
+                    "type": "object",
+                    "minProperties": 1,
+                    "additionalProperties": { "type": "string" }
+                  },
+                  "primaryColumn": { "type": "string" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tradeoffTable": {
+                "type": "object"
+              }
+            },
+            "required": ["tradeoffTable"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tradeoffTable": {
+                "type": "object",
+                "required": ["type", "rows"],
+                "properties": {
+                  "rows": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["pro", "con"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "timeline": {
+                "type": "object"
+              }
+            },
+            "required": ["timeline"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "timeline": {
+                "type": "object",
+                "required": ["type", "entries"],
+                "properties": {
+                  "entries": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["time", "body"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "actionItems": {
+                "type": "object"
+              }
+            },
+            "required": ["actionItems"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "actionItems": {
+                "type": "object",
+                "required": ["type", "items"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["desc"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "faq": {
+                "type": "object"
+              }
+            },
+            "required": ["faq"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "faq": {
+                "type": "object",
+                "required": ["type", "items"],
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["q", "a"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tabs": {
+                "type": "object"
+              }
+            },
+            "required": ["tabs"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "components": {
+            "properties": {
+              "tabs": {
+                "type": "object",
+                "required": ["type", "tabs"],
+                "properties": {
+                  "tabs": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "object",
+                      "required": ["label", "content"]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

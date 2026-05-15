@@ -1,0 +1,21 @@
+<div class="tabs">
+  <div class="tabbar">
+$JOIN{tab-button}
+  </div>
+$JOIN{tab-pane}
+  <script>
+    (function(){
+      var container = document.currentScript.parentElement;
+      var btns = container.querySelectorAll('.tabbar button');
+      var panes = container.querySelectorAll('pre');
+      btns.forEach(function(b){
+        b.addEventListener('click', function(){
+          btns.forEach(function(x){ x.classList.remove('on'); });
+          panes.forEach(function(x){ x.classList.remove('on'); });
+          b.classList.add('on');
+          panes[+b.dataset.t].classList.add('on');
+        });
+      });
+    })();
+  </script>
+</div>

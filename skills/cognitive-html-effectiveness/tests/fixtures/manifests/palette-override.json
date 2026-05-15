@@ -1,0 +1,16 @@
+{
+  "pattern": "report",
+  "title": "Palette Override Test",
+  "lang": "en",
+  "palette": {
+    "ivory": "#FEFEFE",
+    "slate": "#1A1A2E",
+    "clay": "#E94560"
+  },
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "Palette test content."
+    }
+  }
+}

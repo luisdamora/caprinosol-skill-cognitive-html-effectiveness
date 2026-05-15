@@ -1,0 +1,18 @@
+{
+  "pattern": "report",
+  "title": "Engineering Status — Week 14",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>What happened</strong> — Week 14 focused on the bulk edit toolbar feature."
+    },
+    "summaryBand": {
+      "type": "summary-band",
+      "items": [
+        { "num": "14", "label": "PRs merged", "delta": "+3", "delta_class": "up" },
+        { "num": "1", "label": "Incidents", "delta": "SEV-2", "delta_class": "flat" }
+      ]
+    }
+  }
+}

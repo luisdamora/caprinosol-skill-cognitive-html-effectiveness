@@ -1,0 +1,16 @@
+{
+  "pattern": "report",
+  "title": "Single Row Table Test",
+  "lang": "en",
+  "components": {
+    "dataTable": {
+      "type": "data-table",
+      "columns": ["PR", "Title", "Author"],
+      "rows": [
+        ["#4871", "Bulk edit toolbar", "Mira Okafor"]
+      ],
+      "rowFieldLabels": {"PR": "PR #", "Title": "Title", "Author": "Author"},
+      "primaryColumn": "PR"
+    }
+  }
+}

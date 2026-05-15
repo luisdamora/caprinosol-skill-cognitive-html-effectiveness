@@ -1,0 +1,46 @@
+<div class="sandbox">
+  <div class="controls">
+    <h2>Controls</h2>
+    <label>Duration: <span id="durVal">300</span>ms
+      <input type="range" id="duration" min="0" max="2000" value="300" step="50">
+    </label>
+    <label>Easing:
+      <select id="easing">
+        <option value="ease">ease</option>
+        <option value="ease-in">ease-in</option>
+        <option value="ease-out">ease-out</option>
+        <option value="ease-in-out">ease-in-out</option>
+        <option value="linear">linear</option>
+        <option value="cubic-bezier(0.68, -0.55, 0.27, 1.55)">spring</option>
+      </select>
+    </label>
+    <button id="triggerBtn" class="proto-btn">Trigger</button>
+  </div>
+  <div class="preview">
+    <div id="animatedBox" class="anim-box"></div>
+  </div>
+  <button id="copyCssBtn" class="proto-btn">Copy CSS</button>
+</div>
+
+<script>
+  (function(){
+    var box = document.getElementById('animatedBox');
+    var dur = document.getElementById('duration');
+    var durVal = document.getElementById('durVal');
+    var ease = document.getElementById('easing');
+    var trig = document.getElementById('triggerBtn');
+    var copyBtn = document.getElementById('copyCssBtn');
+
+    if (dur) dur.addEventListener('input', function(){ durVal.textContent = this.value; });
+    if (trig) trig.addEventListener('click', function(){
+      if (!box) return;
+      box.style.transition = 'transform ' + (dur ? dur.value : 300) + 'ms ' + (ease ? ease.value : 'ease');
+      box.style.transform = box.style.transform === 'translateX(200px)' ? 'translateX(0)' : 'translateX(200px)';
+    });
+    if (copyBtn) copyBtn.addEventListener('click', function(){
+      var css = '.anim-box {\n  transition: transform ' + (dur ? dur.value : 300) + 'ms ' + (ease ? ease.value : 'ease') + ';\n}\n.anim-box.active {\n  transform: translateX(200px);\n}';
+      navigator.clipboard.writeText(css).then(function(){ copyBtn.textContent = 'Copied!'; setTimeout(function(){ copyBtn.textContent = 'Copy CSS'; }, 1500); });
+    });
+  })();
+</script>
+$COMPONENTS_HTML

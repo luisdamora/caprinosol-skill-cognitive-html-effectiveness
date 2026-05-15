@@ -1,0 +1,25 @@
+[project]
+name = "cognitive-html-effectiveness"
+version = "1.3.0"
+description = "Generate self-contained HTML documents from manifest JSON via templates"
+requires-python = ">=3.12"
+authors = [
+    { name = "Luis Dámora", email = "luis@caprinosol.dev" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Text Processing :: Markup :: HTML",
+]
+keywords = ["html", "template", "documentation", "generator"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+filterwarnings = ["ignore::DeprecationWarning"]
