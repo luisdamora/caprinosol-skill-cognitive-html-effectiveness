@@ -1,3 +1,42 @@
+<style>
+.prog-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: var(--space-2);
+}
+.prog-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+.prog-pct {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--gray-500);
+}
+.prog-track {
+  width: 100%;
+  height: 5px;
+  background: var(--gray-100);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.prog-fill {
+  height: 100%;
+  background: var(--clay);
+  border-radius: 3px;
+}
+.prog-note {
+  font-size: 0.8125rem;
+  line-height: 1.55;
+  color: var(--gray-700);
+  margin-top: var(--space-2);
+}
+@media (max-width: 640px) {
+  .prog-head { flex-direction: column; align-items: flex-start; gap: 6px; }
+}
+</style>
 <div class="prog-item">
   <div class="prog-head">
     <span class="prog-title">$title</span>

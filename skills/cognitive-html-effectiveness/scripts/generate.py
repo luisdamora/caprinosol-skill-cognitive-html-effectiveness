@@ -265,6 +265,8 @@ class TemplateLoader:
 class HTMLGenerator:
     """Orchestrates HTML generation from manifest + templates."""
 
+    _STYLE_RE = re.compile(r'<style[^>]*>(.*?)</style>', re.DOTALL)
+
     def __init__(
         self,
         template_loader: Optional[TemplateLoader] = None,
@@ -385,16 +387,35 @@ class HTMLGenerator:
                 elif isinstance(item, (list, tuple)):
                     # Map array to colN keys (for data-table rows)
                     item_dict = {f"col{i}": str(v) for i, v in enumerate(item)}
-                    # For accordion rows, also build field entries
+
+                    # For data-table-row: pre-render $cells as <td> elements
+                    if join_key == "data-table-row":
+                        cells_html = "".join(
+                            f'        <td>{val}</td>\n' for val in item
+                        )
+                        item_dict["cells"] = cells_html.rstrip('\n')
+
+                    # For data-table-accordion-row: generate $primary_value and $fields
                     if join_key == "data-table-accordion-row":
                         columns = data.get("columns", [])
                         labels = data.get("rowFieldLabels", {})
-                        fields = []
+                        primary = data.get("primaryColumn", columns[0] if columns else "")
+                        primary_idx = columns.index(primary) if primary in columns else 0
+
+                        item_dict["primary_value"] = str(item[primary_idx]) if primary_idx < len(item) else ""
+
+                        fields_html = ""
                         for i, val in enumerate(item):
                             col_name = columns[i] if i < len(columns) else f"col{i}"
                             label = labels.get(col_name, col_name)
-                            fields.append({"label": label, "value": str(val)})
-                        item_dict["_fields"] = fields
+                            fields_html += (
+                                f'      <div class="accordion-field">\n'
+                                f'        <span class="accordion-label">{label}</span>\n'
+                                f'        <span class="accordion-value">{val}</span>\n'
+                                f'      </div>\n'
+                            )
+                        item_dict["fields"] = fields_html.rstrip('\n')
+
                     processed = self.process_joins(fragment_tmpl, item_dict)
                     rendered = string.Template(processed).safe_substitute(**item_dict)
                 else:
@@ -449,126 +470,114 @@ class HTMLGenerator:
         """Flatten a dict to string values for string.Template substitution."""
         return {k: (str(v) if not isinstance(v, str) else v) for k, v in d.items()}
 
+    # ── CSS Extraction ───────────────────────────────────────────────
+
+    def _extract_css(self, component_html: str) -> tuple:
+        """
+        Extract <style> blocks from rendered component HTML.
+        Returns (html_without_style_blocks, extracted_css_text).
+        """
+        css_parts: List[str] = []
+        html_without = component_html
+        for match in self._STYLE_RE.finditer(component_html):
+            css_parts.append(match.group(1).strip())
+        # Remove all <style> blocks from HTML
+        html_without = self._STYLE_RE.sub('', html_without).strip()
+        css_text = '\n'.join(css_parts)
+        return (html_without, css_text)
+
     # ── Component Rendering ──────────────────────────────────────────
 
-    def _render_data_table(self, data: Dict[str, Any]) -> str:
-        """Render a data-table component with dual desktop/mobile output."""
-        columns = data.get("columns", [])
-        rows = data.get("rows", [])
-        labels = data.get("rowFieldLabels", {})
-        primary = data.get("primaryColumn", columns[0] if columns else "")
-        primary_idx = columns.index(primary) if primary in columns else 0
-
-        # Desktop table header
-        headers_html = "".join(f'        <th>{col}</th>\n' for col in columns)
-
-        # Desktop table rows
-        rows_html = ""
-        for row in rows:
-            cells = "".join(f'        <td>{val}</td>\n' for val in row)
-            rows_html += f'      <tr>\n{cells}      </tr>\n'
-
-        # Handle empty table
-        if not rows:
-            col_count = len(columns)
-            rows_html = f'      <tr><td colspan="{col_count}" style="text-align:center;padding:24px;color:var(--gray-500)">No data</td></tr>\n'
-
-        # Mobile accordion rows
-        accordion_html = ""
-        for row in rows:
-            primary_val = row[primary_idx] if primary_idx < len(row) else ""
-            fields_html = ""
-            for i, val in enumerate(row):
-                col_name = columns[i] if i < len(columns) else f"Col {i}"
-                label = labels.get(col_name, col_name)
-                fields_html += (
-                    f'      <div class="accordion-field">\n'
-                    f'        <span class="accordion-label">{label}</span>\n'
-                    f'        <span class="accordion-value">{val}</span>\n'
-                    f'      </div>\n'
-                )
-            accordion_html += (
-                f'  <details open>\n'
-                f'    <summary class="accordion-summary">\n'
-                f'      <span class="accordion-primary">{primary_val}</span>\n'
-                f'    </summary>\n'
-                f'    <div class="accordion-body">\n'
-                f'{fields_html}    </div>\n'
-                f'  </details>\n'
-            )
-
-        # Empty table accordion fallback
-        if not rows:
-            accordion_html = (
-                f'  <details open>\n'
-                f'    <summary class="accordion-summary">\n'
-                f'      <span class="accordion-primary">No data</span>\n'
-                f'    </summary>\n'
-                f'    <div class="accordion-body">\n'
-                f'      <p style="color:var(--gray-500);padding:12px;">No data available</p>\n'
-                f'    </div>\n'
-                f'  </details>\n'
-            )
-
-        return (
-            '<!-- Data Table: Dual-render (desktop table + mobile accordion) -->\n'
-            '<div class="table-scroll table-desktop">\n'
-            '  <table class="data-table">\n'
-            '    <thead>\n'
-            '      <tr>\n'
-            f'{headers_html}      </tr>\n'
-            '    </thead>\n'
-            '    <tbody>\n'
-            f'{rows_html}    </tbody>\n'
-            '  </table>\n'
-            '</div>\n'
-            '\n'
-            '<!-- Mobile: accordion cards -->\n'
-            '<div class="table-mobile-accordion">\n'
-            f'{accordion_html}</div>\n'
-        )
-
-    def render_component(self, component_data: Dict[str, Any]) -> str:
+    def render_component(self, component_data: Dict[str, Any]) -> tuple:
         """
         Render a single component from its manifest data.
-        Returns the rendered HTML string (CSS included in the template).
+        Returns (rendered_html_without_styles, extracted_css_string).
         """
         comp_type = component_data.get("type", "")
-
-        # Special-case data-table for complex dual-render
-        if comp_type == "data-table":
-            return self._render_data_table(component_data)
-
         tmpl = self.loader.resolve_component_template(comp_type)
 
-        # Process $JOIN markers in the template source before substitution
-        joined_source = self.process_joins(tmpl, component_data)
+        # For data-table: pre-render $DATA_TABLE_HEADERS from columns array
+        if comp_type == "data-table":
+            columns = component_data.get("columns", [])
+            rows = component_data.get("rows", [])
+            headers_html = "".join(f'        <th>{col}</th>\n' for col in columns)
+            # Build extended data with pre-rendered headers
+            extended_data = dict(component_data)
+            extended_data["DATA_TABLE_HEADERS"] = headers_html.rstrip('\n')
 
-        # Now substitute the remaining placeholders
-        flat = self._flatten(component_data)
-        result = string.Template(joined_source).safe_substitute(**flat)
+            # Handle empty table: generate "No data" row
+            if not rows:
+                col_count = len(columns)
+                extended_data["DATA_TABLE_HEADERS"] = headers_html.rstrip('\n')
+                # Add empty row placeholder
+                extended_data["_empty_table"] = True
 
-        return result
+            # Process $JOIN markers
+            joined_source = self.process_joins(tmpl, extended_data)
 
-    def render_components(self, components: Dict[str, Any]) -> str:
-        """Render all components from the manifest, returning joined HTML."""
-        parts: List[str] = []
+            # Substitute remaining placeholders
+            flat = self._flatten(extended_data)
+            result = string.Template(joined_source).safe_substitute(**flat)
+        else:
+            # Process $JOIN markers in the template source before substitution
+            joined_source = self.process_joins(tmpl, component_data)
+
+            # Now substitute the remaining placeholders
+            flat = self._flatten(component_data)
+            result = string.Template(joined_source).safe_substitute(**flat)
+
+        # Extract CSS from component <style> blocks
+        clean_html, css = self._extract_css(result)
+        return (clean_html, css)
+
+    def render_components(self, components: Dict[str, Any]) -> tuple:
+        """
+        Render all components from the manifest.
+        Returns (joined_html, concatenated_css, per_component_html_dict).
+        Deduplicates CSS: each component's style is emitted once.
+        """
+        html_parts: List[str] = []
+        css_parts: List[str] = []
+        seen_css: set = set()
+        component_html_map: Dict[str, str] = {}
         for comp_key, comp_data in components.items():
             if isinstance(comp_data, dict) and "type" in comp_data:
-                html = self.render_component(comp_data)
-                parts.append(html)
-        return "\n".join(parts)
+                html, css = self.render_component(comp_data)
+                html_parts.append(html)
+                component_html_map[comp_key] = html
+                # CSS deduplication: use hash of CSS content as key
+                css_key = hash(css)
+                if css_key not in seen_css and css.strip():
+                    seen_css.add(css_key)
+                    css_parts.append(css)
+        return ("\n".join(html_parts), "\n".join(css_parts), component_html_map)
 
     # ── Pattern Rendering ────────────────────────────────────────────
 
-    def render_pattern(self, pattern_name: str, components_html: str) -> str:
+    def render_pattern(self, pattern_name: str, components_html: str,
+                       slot_map: Optional[Dict[str, str]] = None,
+                       component_html_map: Optional[Dict[str, str]] = None) -> str:
         """
         Render a pattern template by wrapping the combined components HTML.
+        If slot_map provided: substitute each $SLOT_NAME with its component HTML.
+        If not: fall back to $COMPONENTS_HTML for backward compat.
+        Unmapped slots resolve to empty string (no error).
+        Invalid slot reference (non-existent component key) → error.
         """
         tmpl = self.loader.resolve_pattern_template(pattern_name)
-        result = tmpl.safe_substitute(
-            COMPONENTS_HTML=components_html,
-        )
+
+        # Build substitution dict with fallback
+        subst: Dict[str, str] = {
+            "COMPONENTS_HTML": components_html,
+        }
+
+        if slot_map and component_html_map:
+            for slot_name, comp_key in slot_map.items():
+                if comp_key not in component_html_map:
+                    _die(f"Invalid slot reference: '{comp_key}' is not a valid component key in manifest")
+                subst[slot_name] = component_html_map[comp_key]
+
+        result = tmpl.safe_substitute(**subst)
         return result
 
     # ── Full Generation ──────────────────────────────────────────────
@@ -596,12 +605,17 @@ class HTMLGenerator:
 
         # 3. Render components
         components_data = manifest.get("components", {})
-        body_html = self.render_components(components_data)
+        body_html, component_css, component_html_map = self.render_components(components_data)
 
         # 4. Render pattern if applicable
         pattern_name = manifest.get("pattern", "")
+        slot_map = manifest.get("slots")
         if pattern_name:
-            body_html = self.render_pattern(pattern_name, body_html)
+            body_html = self.render_pattern(
+                pattern_name, body_html,
+                slot_map=slot_map,
+                component_html_map=component_html_map,
+            )
 
         # 5. Compose into base.html
         base_tmpl = self.loader.load("base")
@@ -612,7 +626,7 @@ class HTMLGenerator:
             PAGE_LANG=lang,
             EYEBROW=manifest.get("eyebrow", ""),
             PALETTE_CSS=css_tokens,
-            COMPONENT_CSS="",
+            COMPONENT_CSS=component_css,
             BODY_HTML=body_html,
             EXPORT_JS=export_js,
         )

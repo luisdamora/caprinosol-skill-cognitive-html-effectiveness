@@ -2,6 +2,9 @@
   "pattern": "comparison",
   "title": "Debounce approaches compared",
   "lang": "en",
+  "slots": {
+    "APPROACHES_SECTION": "tradeoffTable"
+  },
   "components": {
     "tradeoffTable": {
       "type": "tradeoff-table",

@@ -1,0 +1,11 @@
+{
+  "pattern": "review",
+  "title": "Code Review Summary",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Review</strong> — 3 findings, 1 high severity."
+    }
+  }
+}

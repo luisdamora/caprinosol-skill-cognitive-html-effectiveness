@@ -1,0 +1,11 @@
+{
+  "pattern": "walkthrough",
+  "title": "User Registration Flow",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Flow overview</strong> — Three-step registration with email verification."
+    }
+  }
+}

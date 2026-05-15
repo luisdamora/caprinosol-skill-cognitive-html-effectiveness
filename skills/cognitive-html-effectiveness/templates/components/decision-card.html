@@ -1,3 +1,46 @@
+<style>
+.decision-card {
+  border: 1.5px solid var(--clay);
+  border-radius: var(--radius-3);
+  padding: 36px 38px;
+  background: color-mix(in srgb, var(--clay) 10%, var(--white));
+}
+.decision-q {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin-bottom: var(--space-3);
+}
+.decision-context {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--gray-700);
+}
+.options {
+  display: flex;
+  gap: 14px;
+  margin-top: var(--space-6);
+  flex-wrap: wrap;
+}
+.chip {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  padding: 10px 18px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--gray-300);
+  color: var(--gray-700);
+  background: var(--white);
+}
+.chip.lean {
+  border-color: var(--clay);
+  color: var(--clay);
+}
+@media (max-width: 640px) {
+  .decision-card { padding: 22px 18px; }
+  .decision-q { font-size: var(--text-h2); }
+  .chip { min-height: var(--space-7); display: inline-flex; align-items: center; }
+}
+</style>
 <div class="decision-card">
   <p class="decision-q">$question</p>
   <p class="decision-context">$context</p>

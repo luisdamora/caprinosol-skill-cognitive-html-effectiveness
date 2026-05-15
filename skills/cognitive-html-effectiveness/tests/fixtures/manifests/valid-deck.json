@@ -1,0 +1,11 @@
+{
+  "pattern": "deck",
+  "title": "Sprint Review Deck",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Sprint 14</strong> — Shipped 3 features, 0 incidents."
+    }
+  }
+}

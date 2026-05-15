@@ -1,0 +1,11 @@
+{
+  "pattern": "design-system",
+  "title": "Design System Showcase",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Design tokens</strong> — Color palette, typography, and spacing scale."
+    }
+  }
+}

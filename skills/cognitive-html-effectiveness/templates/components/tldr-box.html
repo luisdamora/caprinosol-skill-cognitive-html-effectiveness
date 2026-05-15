@@ -1,3 +1,38 @@
+<style>
+.tldr {
+  background: var(--slate);
+  color: var(--ivory);
+  border-radius: var(--radius-panel);
+  padding: 22px 26px;
+  margin-bottom: var(--space-7);
+}
+.tldr-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--oat);
+  margin-bottom: var(--space-2);
+}
+.tldr p {
+  margin: 0;
+  font-size: 0.97rem;
+  line-height: 1.65;
+  max-width: none;
+  color: var(--ivory);
+}
+.tldr strong {
+  color: var(--ivory);
+}
+.tldr code {
+  background: color-mix(in srgb, var(--ivory) 12%, transparent);
+  color: var(--ivory);
+}
+@media (max-width: 640px) {
+  .tldr { padding: 18px 18px 20px; margin-bottom: var(--space-6); }
+  .tldr p { font-size: var(--text-body); }
+}
+</style>
 <div class="tldr">
   <div class="tldr-label">TL;DR</div>
   <p>$content</p>

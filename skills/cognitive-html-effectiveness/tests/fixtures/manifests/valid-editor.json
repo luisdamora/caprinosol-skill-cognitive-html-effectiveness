@@ -1,0 +1,12 @@
+{
+  "pattern": "editor",
+  "title": "Component Editor",
+  "lang": "en",
+  "components": {
+    "calloutBox": {
+      "type": "callout",
+      "icon": "i",
+      "content": "Drag components to reorder. Click Export to save."
+    }
+  }
+}

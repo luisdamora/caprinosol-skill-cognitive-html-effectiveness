@@ -1,0 +1,11 @@
+{
+  "pattern": "diagram",
+  "title": "Architecture Overview",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Architecture</strong> — Three-tier with caching layer."
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "pattern": "prototyping",
+  "title": "Animation Sandbox",
+  "lang": "en",
+  "components": {
+    "calloutBox": {
+      "type": "callout",
+      "icon": "!",
+      "content": "Use the controls to adjust animation parameters."
+    }
+  }
+}

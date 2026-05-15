@@ -1,3 +1,47 @@
+<style>
+.timeline {
+  position: relative;
+  padding: 4px 0 4px 16px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 16px; top: 8px; bottom: 8px;
+  width: 2px;
+  background: var(--gray-300);
+}
+.tl-entry {
+  position: relative;
+  padding: 0 0 22px 28px;
+}
+.tl-entry:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute;
+  left: -5px; top: 6px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--gray-500);
+  border: 2px solid var(--ivory);
+}
+.tl-dot.impact    { background: var(--clay); }
+.tl-dot.mitigated { background: var(--olive); }
+.tl-time {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: 6px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+}
+.tl-body {
+  font-size: 0.875rem;
+  color: var(--gray-700);
+}
+.tl-body strong { color: var(--slate); font-weight: 600; }
+</style>
 <div class="timeline">
 $JOIN{timeline-entry}
 </div>

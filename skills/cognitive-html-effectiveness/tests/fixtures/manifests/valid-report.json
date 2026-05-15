@@ -2,6 +2,10 @@
   "pattern": "report",
   "title": "Engineering Status — Week 14",
   "lang": "en",
+  "slots": {
+    "SUMMARY_SECTION": "summaryBand",
+    "BODY_SECTION": "tldrBox"
+  },
   "components": {
     "tldrBox": {
       "type": "tldr",

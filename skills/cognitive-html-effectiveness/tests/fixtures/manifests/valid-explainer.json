@@ -1,0 +1,11 @@
+{
+  "pattern": "explainer",
+  "title": "How Debouncing Works",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "<strong>Debouncing</strong> — Delays function execution until a pause in events."
+    }
+  }
+}

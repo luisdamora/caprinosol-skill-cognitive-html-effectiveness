@@ -1,3 +1,47 @@
+<style>
+.summary-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+.stat-card {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-panel);
+  padding: 20px 22px 18px;
+}
+.stat-card.warn {
+  border-left: 4px solid var(--clay);
+  padding-left: 19px;
+}
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--slate);
+  margin-bottom: var(--space-2);
+}
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-500);
+}
+.stat-delta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  margin-top: 6px;
+}
+.stat-delta.up { color: var(--olive); }
+.stat-delta.down { color: var(--rust); }
+.stat-delta.flat { color: var(--gray-500); }
+@media (max-width: 640px) {
+  .summary-band { grid-template-columns: 1fr; }
+  .stat-card { padding: 18px; }
+  .stat-num { font-size: 2.25rem; }
+}
+</style>
 <div class="summary-band">
 $JOIN{summary-band-item}
 </div>

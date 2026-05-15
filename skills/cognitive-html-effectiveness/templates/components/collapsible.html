@@ -1,3 +1,42 @@
+<style>
+details.snippet {
+  border: var(--border);
+  border-radius: var(--radius-row);
+  background: var(--white);
+  margin: 14px 0;
+  overflow: hidden;
+}
+details.snippet summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--slate);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+details.snippet summary::-webkit-details-marker { display: none; }
+details.snippet summary::before {
+  content: "▸";
+  color: var(--clay);
+  font-size: 0.75rem;
+  transition: transform 120ms;
+}
+details.snippet[open] summary::before { transform: rotate(90deg); }
+details.snippet summary .where {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--gray-500);
+  margin-left: auto;
+}
+details.snippet .body { padding: 0 16px 16px; }
+@media (max-width: 640px) {
+  details.snippet summary { min-height: var(--space-7); align-items: flex-start; flex-wrap: wrap; }
+  details.snippet summary .where { width: 100%; margin-left: 0; }
+}
+</style>
 <details class="snippet"$open_attr>
   <summary>$title <span class="where">$where</span></summary>
   <div class="body">

@@ -1,3 +1,48 @@
+<style>
+.tradeoffs {
+  border: var(--border);
+  border-radius: var(--radius-row);
+  overflow: hidden;
+  font-size: 0.8125rem;
+}
+.tradeoffs .row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.tradeoffs .row + .row {
+  border-top: var(--border);
+}
+.tradeoffs .cell {
+  padding: 10px 14px;
+}
+.tradeoffs .cell:first-child {
+  border-right: var(--border);
+}
+.tradeoffs .head {
+  background: var(--gray-100);
+  font-weight: 600;
+  color: var(--slate);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.tradeoffs .pro::before,
+.tradeoffs .con::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: 2px;
+}
+.tradeoffs .pro::before { background: var(--olive); }
+.tradeoffs .con::before { background: var(--clay); }
+@media (max-width: 640px) {
+  .tradeoffs .row { grid-template-columns: 1fr; }
+  .tradeoffs .cell:first-child { border-right: none; }
+  .tradeoffs .cell + .cell { border-top: var(--border); }
+}
+</style>
 <div class="tradeoffs">
   <div class="row head">
     <div class="cell">Pro</div>

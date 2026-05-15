@@ -1,3 +1,32 @@
+<style>
+.pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  line-height: 1;
+}
+.pill.sev      { background: var(--clay); color: var(--white); }
+.pill.resolved { background: var(--olive); color: var(--white); }
+.pill.neutral  { background: var(--gray-100); color: var(--gray-700); border: var(--border); }
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: var(--radius-pill);
+  padding: 3px 8px;
+  border: 1px solid transparent;
+}
+.tag-bug   { background: color-mix(in srgb, var(--clay) 10%, var(--white)); color: var(--clay-d); border-color: color-mix(in srgb, var(--clay) 26%, var(--white)); }
+.tag-feat  { background: color-mix(in srgb, var(--olive) 12%, var(--white)); color: var(--olive); border-color: color-mix(in srgb, var(--olive) 26%, var(--white)); }
+.tag-chore { background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-200); }
+.tag-debt  { background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-200); }
+</style>
 <div class="chips-row">
 $JOIN{chip-item}
 </div>

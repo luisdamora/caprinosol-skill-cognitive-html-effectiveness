@@ -1,3 +1,58 @@
+<style>
+.actions {
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+.ai-row {
+  display: grid;
+  grid-template-columns: 36px 36px 1fr 96px;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.ai-row:last-child { border-bottom: none; }
+.ai-row.done .ai-desc {
+  color: var(--gray-500);
+  text-decoration: line-through;
+  text-decoration-color: var(--gray-300);
+}
+.ai-check {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 5px;
+  display: inline-block;
+  position: relative;
+}
+.ai-row.done .ai-check { background: var(--olive); border-color: var(--olive); }
+.ai-row.done .ai-check::after {
+  content: "";
+  position: absolute;
+  left: 4px; top: 1px;
+  width: 5px; height: 9px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(40deg);
+}
+.ai-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--oat);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+}
+.ai-due { font-family: var(--font-mono); font-size: 0.75rem; color: var(--gray-500); text-align: right; }
+@media (max-width: 640px) {
+  .ai-row { grid-template-columns: 24px 32px 1fr; grid-template-areas: "check avatar due" "check desc desc"; gap: 10px 12px; padding: 14px; }
+  .ai-check { grid-area: check; }
+  .ai-avatar { grid-area: avatar; }
+  .ai-desc { grid-area: desc; }
+  .ai-due { grid-area: due; text-align: right; }
+}
+</style>
 <div class="actions">
 $JOIN{action-item}
 </div>

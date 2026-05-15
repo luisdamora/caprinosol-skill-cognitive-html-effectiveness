@@ -1,3 +1,29 @@
+<style>
+.code-panel {
+  background: var(--slate);
+  color: var(--gray-100);
+  border-radius: var(--radius-panel);
+  padding: 18px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  overflow-x: auto;
+  margin: 8px 0 4px;
+}
+.code-panel .path {
+  color: var(--gray-500);
+  font-size: 0.75rem;
+  margin-bottom: 10px;
+  display: block;
+}
+.diff-line { white-space: pre; }
+.diff-line.ctx { color: var(--gray-300); }
+.diff-line.del { color: color-mix(in srgb, var(--rust) 72%, white); }
+.diff-line.add { color: color-mix(in srgb, var(--olive) 72%, white); }
+@media (max-width: 640px) {
+  .code-panel { padding: 14px 14px 16px; font-size: 0.78rem; }
+}
+</style>
 <div class="code-panel">
   <span class="path">$path</span>
 $JOIN{code-panel-line}

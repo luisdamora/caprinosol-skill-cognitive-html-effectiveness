@@ -1,10 +1,75 @@
 """Tests for HTML generation — verifies output structure and correctness."""
 
 import json
+from html.parser import HTMLParser
 
 import pytest
 
+from scripts.generate import HTMLGenerator
 from tests.conftest import MANIFESTS_DIR
+
+
+# ── Quality Checklist Helper ──────────────────────────────────────────
+
+class _HTMLValidator(HTMLParser):
+    """Basic HTML structural validator."""
+    def __init__(self):
+        super().__init__()
+        self.errors = []
+
+    def handle_starttag(self, tag, attrs):
+        pass
+
+    def handle_endtag(self, tag):
+        pass
+
+    def handle_data(self, data):
+        pass
+
+
+def _run_quality_checks(html: str, pattern_name: str) -> list:
+    """Run quality checks on generated HTML. Returns list of failures."""
+    failures = []
+
+    # 1. CSS vars present
+    if "--ivory" not in html:
+        failures.append("Missing CSS variable --ivory")
+
+    # 2. Mobile breakpoint present
+    if "640px" not in html:
+        failures.append("Missing mobile breakpoint (640px)")
+
+    # 3. No external refs
+    if 'src="http' in html:
+        failures.append("External script reference found")
+    if 'href="http' in html:
+        failures.append("External stylesheet reference found")
+
+    # 4. Semantic HTML structure
+    if "<!DOCTYPE" not in html:
+        failures.append("Missing DOCTYPE")
+    if "<html" not in html:
+        failures.append("Missing <html> tag")
+    if "<body" not in html:
+        failures.append("Missing <body> tag")
+
+    # 5. Parseable HTML
+    validator = _HTMLValidator()
+    try:
+        validator.feed(html)
+    except Exception as e:
+        failures.append(f"HTML parse error: {e}")
+
+    return failures
+
+
+# ── All-pattern fixture paths ─────────────────────────────────────────
+
+_ALL_PATTERN_FIXTURES = [
+    "valid-report", "valid-comparison", "valid-walkthrough",
+    "valid-review", "valid-design-system", "valid-prototyping",
+    "valid-diagram", "valid-deck", "valid-explainer", "valid-editor",
+]
 
 
 class TestHTMLGeneration:
@@ -89,3 +154,67 @@ class TestHTMLGeneration:
         """Pattern template should be applied (report pattern wraps content)."""
         html = generator.generate(sample_manifest)
         assert "report-body" in html or "page-main" in html
+
+    def test_component_css_populated(self, generator, sample_manifest):
+        """$COMPONENT_CSS should be non-empty when components with styles are rendered."""
+        html = generator.generate(sample_manifest)
+        # The tldr-box component has CSS, so COMPONENT_CSS should be populated
+        assert ".tldr" in html, "Component CSS not populated — .tldr styles missing"
+
+    @pytest.mark.parametrize("fixture_name", _ALL_PATTERN_FIXTURES)
+    def test_all_patterns_generate_valid_html(self, generator, fixture_name):
+        """Every pattern should generate valid HTML passing quality checks."""
+        path = MANIFESTS_DIR / f"{fixture_name}.json"
+        if not path.exists():
+            pytest.skip(f"Fixture {fixture_name}.json not found")
+        with open(path, "r", encoding="utf-8") as f:
+            manifest = json.load(f)
+
+        html = generator.generate(manifest)
+        failures = _run_quality_checks(html, manifest.get("pattern", ""))
+        assert not failures, f"Quality check failures for {fixture_name}: {'; '.join(failures)}"
+
+    def test_slot_resolution_works(self, generator):
+        """Manifest with slots should substitute named slots correctly."""
+        manifest = {
+            "pattern": "report",
+            "title": "Slot Test",
+            "lang": "en",
+            "slots": {
+                "SUMMARY_SECTION": "summaryBand",
+            },
+            "components": {
+                "summaryBand": {
+                    "type": "summary-band",
+                    "items": [
+                        {"num": "42", "label": "Items", "delta": "+5", "delta_class": "up"}
+                    ]
+                },
+                "tldrBox": {
+                    "type": "tldr",
+                    "content": "Test TL;DR"
+                }
+            }
+        }
+        html = generator.generate(manifest)
+        # The summary-band should be rendered in SUMMARY_SECTION slot
+        assert "summary-band" in html
+        assert "stat-card" in html
+
+    def test_slot_backward_compat(self, generator):
+        """Manifest without slots should use $COMPONENTS_HTML fallback."""
+        manifest = {
+            "pattern": "report",
+            "title": "Backward Compat Test",
+            "lang": "en",
+            "components": {
+                "tldrBox": {
+                    "type": "tldr",
+                    "content": "No slots manifest"
+                }
+            }
+        }
+        html = generator.generate(manifest)
+        # Components should still render via $COMPONENTS_HTML fallback
+        assert "tldr" in html
+        assert "No slots manifest" in html

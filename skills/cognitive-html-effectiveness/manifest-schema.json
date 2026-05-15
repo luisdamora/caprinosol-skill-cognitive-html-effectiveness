@@ -46,6 +46,13 @@
       "type": "string",
       "description": "Optional custom export JavaScript"
     },
+    "slots": {
+      "type": "object",
+      "description": "Optional mapping of slot names to component keys for semantic placement",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
     "components": {
       "type": "object",
       "description": "Component data keyed by component name (camelCase)",

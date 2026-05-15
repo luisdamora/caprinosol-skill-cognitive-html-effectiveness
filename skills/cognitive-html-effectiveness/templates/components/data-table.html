@@ -1,2 +1,116 @@
-<!-- data-table is rendered programmatically by _render_data_table -->
-$DATA_TABLE_HTML
+<style>
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+table.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--white);
+  border: var(--border);
+  border-radius: var(--radius-panel);
+  overflow: hidden;
+}
+table.data-table thead th {
+  text-align: left;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gray-500);
+  background: var(--gray-100);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--gray-300);
+}
+table.data-table tbody td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+table.data-table tbody tr:last-child td { border-bottom: none; }
+table.data-table tbody tr:hover { background: var(--gray-050); }
+/* Desktop: hide expanded mobile styles */
+@media (min-width: 769px) {
+  .table-mobile-accordion { display: none; }
+}
+/* Data Table: show accordion on mobile */
+@media (max-width: 768px) {
+  .table-desktop { display: none; }
+  .table-mobile-accordion { display: block; }
+  .table-mobile-accordion details {
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius-row);
+    margin-bottom: var(--space-3);
+    overflow: hidden;
+  }
+  .table-mobile-accordion summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--slate);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+  }
+  .table-mobile-accordion summary::-webkit-details-marker { display: none; }
+  .table-mobile-accordion summary::after {
+    content: "▸";
+    color: var(--clay);
+    font-size: 0.75rem;
+    transition: transform 120ms;
+  }
+  .table-mobile-accordion details[open] summary::after { transform: rotate(90deg); }
+  .table-mobile-accordion .accordion-body {
+    padding: 0 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .table-mobile-accordion .accordion-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+    padding: 6px 0;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 0.8125rem;
+  }
+  .table-mobile-accordion .accordion-field:last-child { border-bottom: none; }
+  .table-mobile-accordion .accordion-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+  .table-mobile-accordion .accordion-value {
+    color: var(--slate);
+    text-align: right;
+  }
+}
+</style>
+<!-- Data Table: Dual-render (desktop table + mobile accordion) -->
+<div class="table-scroll table-desktop">
+  <table class="data-table">
+    <thead>
+      <tr>
+$DATA_TABLE_HEADERS
+      </tr>
+    </thead>
+    <tbody>
+$JOIN{data-table-row}
+    </tbody>
+  </table>
+</div>
+
+<!-- Mobile: accordion cards -->
+<div class="table-mobile-accordion">
+$JOIN{data-table-accordion-row}
+</div>
