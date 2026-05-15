@@ -1,0 +1,49 @@
+# openspec/config.yaml
+schema: spec-driven
+
+context: |
+  Tech stack: AI Agent Skill (markdown, CSS, HTML, JavaScript). No runtime yet — Python 3.12 is available system-wide for future generation scripts.
+  Architecture: Single skill package with SKILL.md (agent instruction), 10 HTML output patterns under references/patterns/, shared design-tokens.css, component catalog, decision tree, palette override mechanism, and optional GitHub Gist publish flow.
+  Testing: No project-level test runner configured (no pyproject.toml, no package.json, no pytest.ini, no Makefile). pytest 8.3.5 and coverage 7.10.6 available system-wide. No existing test files.
+  Style: Markdown-based documentation with conventional commit messages in Spanish (feat:, docs:, refactor: prefixes). 2 active branches: main + feat/template-script-generation.
+
+strict_tdd: false
+
+testing:
+  test_runner:
+    framework: none
+    command: ""
+    note: "No project-level test runner configured. pytest 8.3.5 is available system-wide but not configured for this project."
+  unit: false
+  integration: false
+  e2e: false
+  coverage:
+    available: false
+    command: ""
+  quality_tools:
+    linter: false
+    type_checker: false
+    formatter: false
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Identify affected skill files and reference documents
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+  design:
+    - Include sequence diagrams for complex flows
+    - Document architecture decisions with rationale
+  tasks:
+    - Group tasks by phase (infrastructure, implementation, testing)
+    - Use hierarchical numbering (1.1, 1.2, etc.)
+    - Keep tasks small enough to complete in one session
+  apply:
+    - Follow existing code patterns and conventions
+    - Load relevant coding skills for the project stack
+  verify:
+    - Run tests if test infrastructure exists
+    - Compare implementation against every spec scenario
+  archive:
+    - Warn before merging destructive deltas (large removals)

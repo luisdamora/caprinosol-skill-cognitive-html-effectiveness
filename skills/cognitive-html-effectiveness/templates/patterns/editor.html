@@ -1,0 +1,30 @@
+<div class="editor-toolbar">
+  <button id="editorResetBtn" class="editor-btn">Reset</button>
+  <button id="editorExportBtn" class="editor-btn">Export</button>
+</div>
+<div class="editor-board">
+$COMPONENTS_HTML
+</div>
+
+<script>
+  (function(){
+    var exportBtn = document.getElementById('editorExportBtn');
+    var resetBtn = document.getElementById('editorResetBtn');
+
+    if (exportBtn) exportBtn.addEventListener('click', function(){
+      var text = 'Exported from Cognitive HTML Editor:\n\n';
+      var items = document.querySelectorAll('.editor-item');
+      items.forEach(function(item, i){
+        text += (i + 1) + '. ' + (item.textContent || '').trim() + '\n';
+      });
+      navigator.clipboard.writeText(text).then(function(){
+        exportBtn.textContent = 'Copied!';
+        setTimeout(function(){ exportBtn.textContent = 'Export'; }, 1500);
+      });
+    });
+
+    if (resetBtn) resetBtn.addEventListener('click', function(){
+      document.querySelectorAll('.editor-item').forEach(function(el){ el.remove(); });
+    });
+  })();
+</script>

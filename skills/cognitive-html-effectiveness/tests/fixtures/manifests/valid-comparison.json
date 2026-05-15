@@ -1,0 +1,14 @@
+{
+  "pattern": "comparison",
+  "title": "Debounce approaches compared",
+  "lang": "en",
+  "components": {
+    "tradeoffTable": {
+      "type": "tradeoff-table",
+      "rows": [
+        { "pro": "Simple, no deps", "con": "Logic duplicated" },
+        { "pro": "Easy to debug", "con": "Two state sources" }
+      ]
+    }
+  }
+}

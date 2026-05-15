@@ -1,0 +1,10 @@
+{
+  "title": "Missing Pattern Field",
+  "lang": "en",
+  "components": {
+    "tldrBox": {
+      "type": "tldr",
+      "content": "This manifest is missing the pattern field."
+    }
+  }
+}

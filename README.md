@@ -87,6 +87,14 @@ The 10 patterns are derived from the [HTML Effectiveness](https://thariqs.github
 
 ```
 ├── SKILL.md                  ← Agent instruction (trigger + workflow)
+├── catalog-summary.md        ← LLM entry point for template mode
+├── manifest-schema.json      ← JSON Schema for manifest validation
+├── scripts/
+│   └── generate.py           ← CLI: manifest → self-contained HTML
+├── templates/
+│   ├── base.html             ← Page shell with design tokens
+│   ├── components/           ← 15 reusable component fragments
+│   └── patterns/             ← 10 pattern composers
 ├── assets/
 │   └── design-tokens.css     ← Default palette (CSS variables)
 ├── references/
@@ -95,7 +103,35 @@ The 10 patterns are derived from the [HTML Effectiveness](https://thariqs.github
 │   ├── palette-override.md   ← Color customization protocol
 │   ├── quality-checklist.md  ← Pre-delivery validation
 │   └── patterns/             ← 10 pattern blueprints
+├── tests/
+│   ├── conftest.py           ← Pytest fixtures
+│   ├── test_manifest_validation.py
+│   ├── test_template_loading.py
+│   ├── test_html_generation.py
+│   ├── test_data_table_accordion.py
+│   └── test_palette_resolution.py
+└── pyproject.toml            ← Project metadata + pytest config
 ```
+
+## Template Generation Mode
+
+For recurring output shapes (weekly reports, comparisons, incident templates), use the template mode instead of hand-writing HTML each time:
+
+1. **Read** `catalog-summary.md` — the LLM entry point listing all patterns, components, and the manifest schema
+2. **Write** `manifest.json` — a JSON file with pattern name, title, language, and component data
+3. **Run** `python scripts/generate.py manifest.json --output output.html`
+4. **Open** `output.html` in any browser
+
+The generator validates your manifest against `manifest-schema.json`, resolves palette overrides from `AGENTS.md`, and composes the final HTML from 26 `string.Template` files — all with **zero pip install** required.
+
+### Quick example
+
+```bash
+# Create a manifest.json, then:
+python scripts/generate.py manifest.json --output report.html --lang en
+```
+
+See `catalog-summary.md` for the full manifest schema and component/pattern reference.
 
 ## License
 
